@@ -1,4 +1,3 @@
-
 #ifndef MENU_H
 #define MENU_H
 
@@ -8,7 +7,14 @@
 class Menu {
 private:
     BibliotecaMagica bm;
-    void mostrarMenu();
+
+    // Metodos de navegacion
+    void mostrarMenuPrincipal();
+    void submenuGestionLibros();
+    void submenuBusquedas();
+    void submenuComparaciones();
+    void submenuArchivos();
+
     void opcionAgregar();
     void opcionEliminar();
     void opcionBuscarTitulo();
@@ -20,10 +26,15 @@ private:
     void opcionBuscarRangoFechas();
     void opcionMedirRendimiento();
     void opcionExportarArboles();
+
+    // Utilidades
+    int leerEntero(const string& mensaje);
+    void mostrarSeparador();
+    void pausar();
+
 public:
     Menu();
     void ejecutar();
 };
-
 
 #endif
