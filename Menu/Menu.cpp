@@ -177,7 +177,6 @@ void Menu::submenuArchivos() {
     } while (opcion != 0);
 }
 
-// Implementaciones existentes (sin cambios en la logica)
 void Menu::opcionAgregar() {
     mostrarSeparador();
     cout << "         AGREGAR NUEVO LIBRO" << endl;
