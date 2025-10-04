@@ -42,6 +42,7 @@ vector<Libro> BibliotecaMagica::buscarPorGenero(string genero) {
     return arbolGeneros.buscar(genero);
 }
 
+
 void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()) {
@@ -50,13 +51,19 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
     }
 
     std::string linea;
+
+    // Saltar primera línea (cabecera)
+    if (!getline(archivo, linea)) {
+        std::cerr << "Archivo vacío o sin cabecera." << std::endl;
+        return;
+    }
+
     while (getline(archivo, linea)) {
         if (linea.empty()) continue;
 
         std::stringstream ss(linea);
         std::string titulo, isbn, genero, anioStr, autor;
 
-        // Quitar comillas y separar por comas
         if (!getline(ss, titulo, ',')) continue;
         if (!getline(ss, isbn, ',')) continue;
         if (!getline(ss, genero, ',')) continue;
@@ -96,6 +103,9 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
     archivo.close();
     std::cout << "Carga desde CSV completada." << std::endl;
 }
+
+
+
 
 ListaLibros BibliotecaMagica::buscarPorRangoFechas(int inicio, int fin) {
     return arbolFechas.buscarPorRangoFechas(inicio, fin);
