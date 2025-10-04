@@ -1,3 +1,14 @@
 # ninja log v6
 0	191	1759536704570624797	CMakeFiles/Proyecto1_eddSS2025.dir/main.cpp.o	c17fa92f2741ab26
 191	224	1759536704761639919	Proyecto1_eddSS2025	835a7390ae6156aa
+2	10	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/hola.cpp.o	742ca661cfd0887a
+2	184	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/Libro.cpp.o	e1c84a789053e1ba
+2	212	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/HashTable.cpp.o	70bb43c5d376a634
+1	238	1759540430304027065	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolAVL.cpp.o	e15893ea6c7123cb
+1	251	1759540430304027065	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolB.cpp.o	6787e858e5df65c6
+2	263	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ListaLibros.cpp.o	2299b7ad90581aa7
+1	487	1759540430304027065	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o	e74db8a2e9b1969f
+1	539	1759540430304027065	CMakeFiles/Proyecto1_eddSS2025.dir/main.cpp.o	c17fa92f2741ab26
+2	614	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/BibliotecaMagica.cpp.o	88d6dfb0feec2058
+2	643	1759540430305026959	CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o	b47952332517a97c
+643	693	1759540430945959394	Proyecto1_eddSS2025	fd74a906cbd786d9
