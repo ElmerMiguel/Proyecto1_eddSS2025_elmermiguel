@@ -198,7 +198,7 @@ void Menu::opcionAgregar() {
     getline(cin, autor);
 
     bm.agregarLibro(Libro(titulo, isbn, genero, anio, autor));
-    cout << "\nLibro agregado con exito." << endl;
+    
 }
 
 void Menu::opcionEliminar() {
