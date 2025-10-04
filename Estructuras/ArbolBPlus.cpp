@@ -13,15 +13,19 @@ ArbolBPlus::ArbolBPlus(int _t) {
 }
 
 void ArbolBPlus::insertar(const Libro& libro) {
-    insertarInterno(raiz, libro, libro.genero);
+    if (!raiz) {
+        raiz = new NodoBPlus(true);
+    }
 
-    // Si la raíz se desborda, dividir
-    if ((int)raiz->claves.size() >= 2 * t) {
+    if (raiz->claves.size() == 2 * t - 1) {
+        // La raiz esta llena, necesita dividirse
         NodoBPlus* nuevaRaiz = new NodoBPlus(false);
         nuevaRaiz->hijos.push_back(raiz);
         dividirNodo(nuevaRaiz, 0, raiz);
         raiz = nuevaRaiz;
     }
+
+    insertarInterno(raiz, libro, libro.genero);
 }
 
 void ArbolBPlus::insertarInterno(NodoBPlus* nodo, const Libro& libro, const string& genero) {
@@ -61,29 +65,40 @@ void ArbolBPlus::dividirNodo(NodoBPlus* padre, int i, NodoBPlus* hijo) {
     NodoBPlus* nuevo = new NodoBPlus(hijo->hoja);
     int mitad = t;
 
-    // Copiar claves a nuevo nodo
-    nuevo->claves.assign(hijo->claves.begin() + mitad, hijo->claves.end());
-    hijo->claves.erase(hijo->claves.begin() + mitad, hijo->claves.end());
-
     if (hijo->hoja) {
+        // División de hoja
+        nuevo->claves.assign(hijo->claves.begin() + mitad, hijo->claves.end());
         nuevo->valores.assign(hijo->valores.begin() + mitad, hijo->valores.end());
+        
+        // Remover elementos del hijo original
+        hijo->claves.erase(hijo->claves.begin() + mitad, hijo->claves.end());
         hijo->valores.erase(hijo->valores.begin() + mitad, hijo->valores.end());
 
+        // Establecer enlaces entre hojas
         nuevo->siguiente = hijo->siguiente;
         hijo->siguiente = nuevo;
 
+        // Promover la primera clave del nuevo nodo (mantenerla en la hoja)
         padre->claves.insert(padre->claves.begin() + i, nuevo->claves[0]);
         padre->hijos.insert(padre->hijos.begin() + i + 1, nuevo);
     } else {
+        // División de nodo interno
+        nuevo->claves.assign(hijo->claves.begin() + mitad + 1, hijo->claves.end());
         nuevo->hijos.assign(hijo->hijos.begin() + mitad + 1, hijo->hijos.end());
+
+        // La clave del medio se promueve al padre (NO se copia al nuevo nodo)
+        string clavePromocion = hijo->claves[mitad];
+        
+        // Limpiar el hijo original
+        hijo->claves.erase(hijo->claves.begin() + mitad, hijo->claves.end());
         hijo->hijos.erase(hijo->hijos.begin() + mitad + 1, hijo->hijos.end());
 
-        padre->claves.insert(padre->claves.begin() + i, hijo->claves[mitad]);
-        hijo->claves.erase(hijo->claves.begin() + mitad);
-
+        // Insertar en el padre
+        padre->claves.insert(padre->claves.begin() + i, clavePromocion);
         padre->hijos.insert(padre->hijos.begin() + i + 1, nuevo);
     }
 }
+
 
 vector<Libro> ArbolBPlus::buscar(const string& genero) {
     vector<Libro> resultado;
@@ -129,40 +144,108 @@ void ArbolBPlus::mostrarTodos() {
     }
 }
 
+
 void ArbolBPlus::exportarDOT(const string& archivo) {
     ofstream out(archivo);
     if (!out.is_open()) {
-        cerr << "No se pudo abrir el archivo DOT." << endl;
+        cerr << "Error: No se pudo crear el archivo " << archivo << endl;
         return;
     }
 
     out << "digraph BPlusTree {\n";
-    out << "node [shape=record, style=filled, fillcolor=lightgreen];\n";
+    out << "node [shape=record, style=filled, fillcolor=lightblue];\n";
+    out << "rankdir=TB;\n";  // Top to Bottom layout
 
-    int id = 0;
-    exportarDOTRec(raiz, out, id);
+    if (!raiz) {
+        out << "empty [label=\"Arbol Vacio\"];\n";
+    } else {
+        int id = 0;
+        exportarDOTRec(raiz, out, id);
+        
+        // Agregar enlaces entre hojas
+        agregarEnlacesHojas(out);
+    }
 
     out << "}\n";
     out.close();
+    cout << "Archivo DOT generado: " << archivo << endl;
 }
+
 
 void ArbolBPlus::exportarDOTRec(NodoBPlus* nodo, ofstream& out, int& id) {
     if (!nodo) return;
     int nodoId = id++;
 
     out << "n" << nodoId << " [label=\"";
-    for (size_t i = 0; i < nodo->claves.size(); i++) {
-        out << nodo->claves[i];
-        if (i != nodo->claves.size() - 1) out << "|";
+    
+    if (nodo->hoja) {
+        // Para hojas, mostrar géneros con conteo
+        for (size_t i = 0; i < nodo->claves.size(); i++) {
+            out << "<f" << i << "> " << nodo->claves[i] 
+                << "(" << nodo->valores[i].size() << ")";
+            if (i != nodo->claves.size() - 1) out << "|";
+        }
+    } else {
+        // Para nodos internos, mostrar solo claves
+        for (size_t i = 0; i < nodo->claves.size(); i++) {
+            out << "<f" << i << "> |" << nodo->claves[i] << "| ";
+        }
+        out << "<f" << nodo->claves.size() << ">";
     }
-    out << "\"];\n";
+    
+    out << "\", fillcolor=" << (nodo->hoja ? "lightgreen" : "lightblue") << "];\n";
 
     if (!nodo->hoja) {
         for (size_t i = 0; i < nodo->hijos.size(); i++) {
             int childId = id;
             exportarDOTRec(nodo->hijos[i], out, id);
-            out << "n" << nodoId << " -> n" << childId << ";\n";
+            out << "\"n" << nodoId << "\":f" << i << " -> \"n" << childId << "\";\n";
         }
     }
 }
+
+
+
+void ArbolBPlus::agregarEnlacesHojas(ofstream& out) {
+    if (!raiz) return;
+    
+    // Recopilar SOLO las hojas reales y sus IDs en el DOT
+    vector<int> idHojas;
+    int id = 0;  // CREAR VARIABLE LOCAL
+    recopilarIdsHojas(raiz, id, idHojas);  // PASAR VARIABLE, NO LITERAL
+    
+    // Enlaces SOLO entre hojas consecutivas
+    for (size_t i = 0; i < idHojas.size() - 1; i++) {
+        out << "n" << idHojas[i] << " -> n" << idHojas[i+1] 
+            << " [style=dashed, color=red, constraint=false];\n";
+    }
+}
+
+
+int ArbolBPlus::contarNodosInternos(NodoBPlus* nodo) {
+    if (!nodo || nodo->hoja) return 0;
+    
+    int count = 1; // Este nodo interno
+    for (NodoBPlus* hijo : nodo->hijos) {
+        count += contarNodosInternos(hijo);
+    }
+    return count;
+}
+
+void ArbolBPlus::recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHojas) {
+    if (!nodo) return;
+    
+    int nodoId = id++;
+    
+    if (nodo->hoja) {
+        // Esta es una hoja, guardar su ID
+        idHojas.push_back(nodoId);
+    } else {
+        // Nodo interno, recorrer hijos
+        for (NodoBPlus* hijo : nodo->hijos) {
+            recopilarIdsHojas(hijo, id, idHojas);
+        }
+    }
+}
+
 

@@ -27,6 +27,9 @@ private:
     void dividirNodo(NodoBPlus* padre, int i, NodoBPlus* hijo);
     void mostrarRecursivo(NodoBPlus* nodo, int nivel);
     void exportarDOTRec(NodoBPlus* nodo, ofstream& out, int& id);
+    void agregarEnlacesHojas(ofstream& out); 
+    int contarNodosInternos(NodoBPlus* nodo);
+    void recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHojas); 
      
 
 public:
