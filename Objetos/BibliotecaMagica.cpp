@@ -4,6 +4,10 @@
 #include <sstream>
 #include <iostream>
 #include <chrono>
+
+#include <sys/stat.h>  
+#include <cstdlib>    
+
 using namespace std::chrono;
 
 BibliotecaMagica::BibliotecaMagica() : arbolFechas(3), arbolGeneros(2) {}
@@ -169,16 +173,48 @@ long long BibliotecaMagica::medirBusquedaISBNSecuencial(const string& isbn) {
 
 void BibliotecaMagica::exportarAVL(const string& archivo) {
     arbolTitulos.exportarDOT(archivo);
+    generarPNGdesdeDOT(archivo.substr(0, archivo.find(".dot")));
 }
 
 void BibliotecaMagica::exportarB(const string& archivo) {
     arbolFechas.exportarDOT(archivo);
+    generarPNGdesdeDOT(archivo.substr(0, archivo.find(".dot")));
 }
 
 void BibliotecaMagica::exportarBPlus(const string& archivo) {
     arbolGeneros.exportarDOT(archivo);
+    generarPNGdesdeDOT(archivo.substr(0, archivo.find(".dot")));
 }
 
 void BibliotecaMagica::exportarBST(const string& archivo) {
     tablaISBN.exportarDOT(archivo);
+    generarPNGdesdeDOT(archivo.substr(0, archivo.find(".dot")));
+}
+
+
+
+void BibliotecaMagica::generarPNGdesdeDOT(const string& archivoBase) {
+    string comandoDOT = "dot -Tpng " + archivoBase + ".dot -o " + archivoBase + ".png";
+    int resultado = system(comandoDOT.c_str());
+    
+    if (resultado == 0) {
+        cout << "✓ PNG generado: " << archivoBase << ".png" << endl;
+    } else {
+        cout << "✗ Error generando PNG para: " << archivoBase << endl;
+    }
+}
+
+void BibliotecaMagica::exportarTodosLosDOTs() {
+    system("mkdir -p graficos_arboles");
+    
+    cout << "Exportando todos los arboles a DOT y PNG..." << endl;
+    cout << "=============================================" << endl;
+    
+    exportarAVL("graficos_arboles/arbol_avl_titulos.dot");
+    exportarB("graficos_arboles/arbol_b_fechas.dot");
+    exportarBST("graficos_arboles/arbol_bst_isbn.dot");
+    exportarBPlus("graficos_arboles/arbol_bplus_generos.dot");
+    
+    cout << "=============================================" << endl;
+    cout << "Archivos generados en carpeta 'graficos_arboles/'" << endl;
 }

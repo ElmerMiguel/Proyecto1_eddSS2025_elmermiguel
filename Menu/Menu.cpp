@@ -373,18 +373,30 @@ void Menu::opcionExportarArboles() {
     cout << "       EXPORTAR GRAFICOS DE ARBOLES" << endl;
     mostrarSeparador();
 
-    cout << "Exportando arboles a archivos DOT..." << endl;
-    bm.exportarAVL("avl.dot");
-    bm.exportarB("b.dot");
-    bm.exportarBPlus("bplus.dot");
-    bm.exportarBST("bst.dot");
-    cout << "\nArchivos generados:" << endl;
-    cout << "- avl.dot (Arbol AVL de titulos)" << endl;
-    cout << "- b.dot (Arbol B de fechas)" << endl;
-    cout << "- bplus.dot (Arbol B+ de generos)" << endl;
-    cout << "- bst.dot (Arbol BST de ISBN)" << endl;
-    cout << "\nPara generar imagenes, use:" << endl;
-    cout << "dot -Tpng archivo.dot -o salida.png" << endl;
+    system("mkdir -p graficos_arboles");
+    
+    cout << "Exportando arboles a archivos DOT y PNG..." << endl;
+    cout << "\nGenerando ArbolAVL (titulos)..." << endl;
+    bm.exportarAVL("graficos_arboles/avl_titulos.dot");
+    
+    cout << "Generando ArbolB (fechas)..." << endl;
+    bm.exportarB("graficos_arboles/b_fechas.dot");
+    
+    cout << "Generando ArbolBPlus (generos)..." << endl;
+    bm.exportarBPlus("graficos_arboles/bplus_generos.dot");
+    
+    cout << "Generando ArbolBST (ISBN)..." << endl;
+    bm.exportarBST("graficos_arboles/bst_isbn.dot");
+    
+    mostrarSeparador();
+    cout << "       ARCHIVOS GENERADOS" << endl;
+    mostrarSeparador();
+    cout << "Carpeta: graficos_arboles/" << endl;
+    cout << "✓ avl_titulos.dot y .png" << endl;
+    cout << "✓ b_fechas.dot y .png" << endl;
+    cout << "✓ bplus_generos.dot y .png" << endl;
+    cout << "✓ bst_isbn.dot y .png" << endl;
+    cout << "\nPuede abrir las imagenes PNG directamente!" << endl;
 }
 
 // Utilidades

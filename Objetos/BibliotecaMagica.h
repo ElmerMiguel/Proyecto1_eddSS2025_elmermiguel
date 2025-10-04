@@ -11,6 +11,9 @@
 #include <string>
 #include <chrono>
 
+#include <sys/stat.h> 
+#include <cstdlib> 
+
 class BibliotecaMagica {
 private:
     ListaLibros listaSecuencial;
@@ -18,6 +21,8 @@ private:
     ArbolB arbolFechas;
     ArbolBST tablaISBN;
     ArbolBPlus arbolGeneros;
+    void generarPNGdesdeDOT(const string& archivoBase);
+    
 
 public:
     BibliotecaMagica();
@@ -44,6 +49,7 @@ public:
     void exportarB(const string& archivo);
     void exportarBPlus(const string& archivo);
     void exportarBST(const string& archivo);
+    void exportarTodosLosDOTs();
 };
 
 #endif
