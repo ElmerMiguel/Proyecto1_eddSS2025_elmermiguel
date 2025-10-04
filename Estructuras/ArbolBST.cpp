@@ -24,7 +24,6 @@ NodoBST* ArbolBST::insertar(NodoBST* nodo, Libro libro) {
     } else if (libro.isbn > nodo->data.isbn) {
         nodo->der = insertar(nodo->der, libro);
     }
-    // Si ISBN es igual, no insertar duplicado
     
     return nodo;
 }
@@ -120,7 +119,6 @@ void ArbolBST::exportarDOT(const string& archivo) {
 void ArbolBST::exportarDOTRec(NodoBST* nodo, ofstream& out) {
     if (!nodo) return;
     
-    // Usar solo parte del ISBN para el nodo visual
     string isbnCorto = nodo->data.isbn.length() > 10 ? 
                       nodo->data.isbn.substr(nodo->data.isbn.length()-4) : 
                       nodo->data.isbn;

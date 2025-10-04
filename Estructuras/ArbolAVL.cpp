@@ -142,10 +142,6 @@ bool ArbolAVL::eliminar(string titulo) {
 
 
 
-
-
-
-
 void ArbolAVL::inOrder(NodoAVL* nodo) {
     if (!nodo) return;
     inOrder(nodo->izq);
@@ -166,6 +162,8 @@ void ArbolAVL::mostrarInOrder() {
     inOrder(raiz);
 }
 
+
+
 void ArbolAVL::exportarDOT(const string& archivo) {
     ofstream out(archivo);
     if (!out.is_open()) {
@@ -175,24 +173,31 @@ void ArbolAVL::exportarDOT(const string& archivo) {
 
     out << "digraph AVL {\n";
     out << "node [shape=circle, style=filled, fillcolor=lightblue];\n";
+    out << "rankdir=TB;\n";  
+    out << "ordering=out;\n"; 
 
-    exportarDOTRec(raiz, out);
+    if (!raiz) {
+        out << "empty [label=\"Arbol Vacio\"];\n";
+    } else {
+        exportarDOTRec(raiz, out);
+    }
 
     out << "}\n";
     out.close();
+    cout << "Archivo DOT generado: " << archivo << endl;
 }
+
+
 
 void ArbolAVL::exportarDOTRec(NodoAVL* nodo, ofstream& out) {
     if (!nodo) return;
 
-    out << "\"" << nodo->data.titulo << "\";\n";
-
     if (nodo->izq) {
-        out << "\"" << nodo->data.titulo << "\" -> \"" << nodo->izq->data.titulo << "\";\n";
+        out << "\"" << nodo->data.titulo << "\" -> \"" << nodo->izq->data.titulo << "\" [label=\"L\"];\n";
         exportarDOTRec(nodo->izq, out);
     }
     if (nodo->der) {
-        out << "\"" << nodo->data.titulo << "\" -> \"" << nodo->der->data.titulo << "\";\n";
+        out << "\"" << nodo->data.titulo << "\" -> \"" << nodo->der->data.titulo << "\" [label=\"R\"];\n";
         exportarDOTRec(nodo->der, out);
     }
 }
