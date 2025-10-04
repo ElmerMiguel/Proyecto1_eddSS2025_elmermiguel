@@ -210,7 +210,7 @@ void Menu::opcionEliminar() {
     cout << "Ingrese ISBN del libro a eliminar: ";
     getline(cin, isbn);
     bm.eliminarLibro(isbn);
-    cout << "\nLibro eliminado (si existia)." << endl;
+    
 }
 
 void Menu::opcionBuscarTitulo() {

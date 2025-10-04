@@ -68,7 +68,7 @@ NodoAVL* ArbolAVL::buscar(NodoAVL* nodo, string titulo) {
 
 
 
-// ...existing code...
+
 
 NodoAVL* ArbolAVL::encontrarMin(NodoAVL* nodo) {
     while (nodo && nodo->izq) {
@@ -140,7 +140,7 @@ bool ArbolAVL::eliminar(string titulo) {
     return raiz != original || buscar(titulo) == nullptr;
 }
 
-// ...existing code...
+
 
 
 
