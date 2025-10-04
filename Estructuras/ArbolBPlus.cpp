@@ -86,24 +86,37 @@ void ArbolBPlus::dividirNodo(NodoBPlus* padre, int i, NodoBPlus* hijo) {
 }
 
 vector<Libro> ArbolBPlus::buscar(const string& genero) {
+    vector<Libro> resultado;
+    
+    if (!raiz) return resultado;
+    
+    // Ir a la PRIMERA hoja (mas a la izquierda)
     NodoBPlus* actual = raiz;
     while (!actual->hoja) {
-        int i = 0;
-        while (i < (int)actual->claves.size() && genero > actual->claves[i]) i++;
-        actual = actual->hijos[i];
+        actual = actual->hijos[0];  // Siempre ir al hijo mas a la izquierda
     }
-    for (size_t i = 0; i < actual->claves.size(); i++) {
-        if (actual->claves[i] == genero) {
-            return actual->valores[i];
+    
+    // Recorrer TODAS las hojas enlazadas secuencialmente
+    while (actual) {
+        for (size_t i = 0; i < actual->claves.size(); i++) {
+            if (actual->claves[i] == genero) {
+                // Agregar todos los libros de este genero
+                for (const Libro& libro : actual->valores[i]) {
+                    resultado.push_back(libro);
+                }
+            }
         }
+        actual = actual->siguiente;
     }
-    return {}; // vacío
+    
+    return resultado;
 }
+
 
 void ArbolBPlus::mostrarTodos() {
     NodoBPlus* actual = raiz;
     while (!actual->hoja) {
-        actual = actual->hijos[0]; // ir al más a la izquierda
+        actual = actual->hijos[0]; // ir al mas a la izquierda
     }
     while (actual) {
         for (size_t i = 0; i < actual->claves.size(); i++) {

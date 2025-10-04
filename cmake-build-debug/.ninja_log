@@ -42,3 +42,16 @@
 575	622	1759573567882412621	Proyecto1_eddSS2025	ac7a872c85ab66a9
 0	601	1759574032530228884	CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o	b47952332517a97c
 601	643	1759574033131248335	Proyecto1_eddSS2025	ac7a872c85ab66a9
+0	251	1759578190563090667	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolAVL.cpp.o	e15893ea6c7123cb
+0	467	1759578190563090667	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o	e74db8a2e9b1969f
+1	607	1759578190564090685	CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o	b47952332517a97c
+607	649	1759578191170101974	Proyecto1_eddSS2025	ac7a872c85ab66a9
+1	493	1759579758541337504	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o	e74db8a2e9b1969f
+1	557	1759579758541337504	CMakeFiles/Proyecto1_eddSS2025.dir/main.cpp.o	c17fa92f2741ab26
+2	611	1759579758542337521	CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/BibliotecaMagica.cpp.o	88d6dfb0feec2058
+1	630	1759579758541337504	CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o	b47952332517a97c
+1	569	1759579788514868423	CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/BibliotecaMagica.cpp.o	88d6dfb0feec2058
+2	516	1759579842627828178	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o	e74db8a2e9b1969f
+516	575	1759579843141837302	Proyecto1_eddSS2025	ac7a872c85ab66a9
+1	483	1759580016146914991	CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o	e74db8a2e9b1969f
+483	525	1759580016628923583	Proyecto1_eddSS2025	ac7a872c85ab66a9

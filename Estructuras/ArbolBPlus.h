@@ -27,6 +27,7 @@ private:
     void dividirNodo(NodoBPlus* padre, int i, NodoBPlus* hijo);
     void mostrarRecursivo(NodoBPlus* nodo, int nivel);
     void exportarDOTRec(NodoBPlus* nodo, ofstream& out, int& id);
+     
 
 public:
     ArbolBPlus(int _t = 2); // por defecto grado 2
@@ -34,6 +35,7 @@ public:
     vector<Libro> buscar(const string& genero);
     void mostrarTodos();
     void exportarDOT(const string& archivo);
+   
 };
 
 

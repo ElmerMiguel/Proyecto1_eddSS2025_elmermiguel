@@ -105,6 +105,7 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
 
     archivo.close();
     std::cout << "Carga desde CSV completada." << std::endl;
+
 }
 
 
