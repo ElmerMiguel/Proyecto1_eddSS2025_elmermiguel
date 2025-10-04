@@ -1,14 +1,14 @@
-
 #include "BibliotecaMagica.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <chrono>
-
-#include <sys/stat.h>  
-#include <cstdlib>    
+#include <filesystem>  
+#include <vector>       
+#include <cstdlib>
 
 using namespace std::chrono;
+
 
 BibliotecaMagica::BibliotecaMagica() : arbolFechas(3), arbolGeneros(2) {}
 
@@ -67,7 +67,53 @@ vector<Libro> BibliotecaMagica::buscarPorGenero(string genero) {
 
 
 
-void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
+
+void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") {
+    namespace fs = std::filesystem;
+    std::string rutaArchivo = rutaArchivoParam;
+
+ // === NUEVO BLOQUE: manejo de carpeta ./csv ===
+if (rutaArchivo.empty()) {
+    std::string carpeta = "./csv";
+    std::vector<std::string> archivosCSV;
+
+    if (fs::exists(carpeta) && fs::is_directory(carpeta)) {
+        for (const auto& entry : fs::directory_iterator(carpeta)) {
+            if (entry.is_regular_file() && entry.path().extension() == ".csv") {
+                archivosCSV.push_back(entry.path().filename().string()); 
+            }
+        }
+    }
+
+    if (!archivosCSV.empty()) {
+        std::cout << "\n=== ARCHIVOS CSV DISPONIBLES EN ./CSV===" << std::endl;
+        for (size_t i = 0; i < archivosCSV.size(); ++i) {
+            std::cout << i + 1 << ". " << archivosCSV[i] << std::endl;
+        }
+        std::cout << "0. Ingresar ruta manual" << std::endl;
+        std::cout << "Seleccione una opcion: ";
+
+        int opcion;
+        std::cin >> opcion;
+        std::cin.ignore(); 
+
+        if (opcion == 0) {
+            std::cout << "Ingrese la ruta del archivo CSV: ";
+            std::getline(std::cin, rutaArchivo);
+        } else if (opcion > 0 && opcion <= (int)archivosCSV.size()) {
+            rutaArchivo = carpeta + "/" + archivosCSV[opcion - 1];
+        } else {
+            std::cerr << "Opcion invalida. Cancelando importacion." << std::endl;
+            return;
+        }
+    } else {
+        std::cout << "No se encontraron archivos CSV en ./csv.\n";
+        std::cout << "Ingrese la ruta manual del archivo CSV: ";
+        std::getline(std::cin, rutaArchivo);
+    }
+}
+
+
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()) {
         std::cerr << "Error: no se pudo abrir el archivo " << rutaArchivo << std::endl;
@@ -114,7 +160,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
             continue;
         }
 
-        // Validar ISBN unico 
         if (tablaISBN.buscar(isbn) != nullptr) {
             std::cerr << "(X) ISBN duplicado ignorado: " << isbn << " - " << titulo << std::endl;
             librosIgnorados++;
@@ -194,13 +239,17 @@ void BibliotecaMagica::exportarBST(const string& archivo) {
 
 
 void BibliotecaMagica::generarPNGdesdeDOT(const string& archivoBase) {
-    string comandoDOT = "dot -Tpng " + archivoBase + ".dot -o " + archivoBase + ".png";
+    string comandoDOT = "dot -Tpng " + archivoBase + ".dot -o " + archivoBase + ".png 2>/dev/null";
     int resultado = system(comandoDOT.c_str());
     
-    if (resultado == 0) {
-        cout << "✓ PNG generado: " << archivoBase << ".png" << endl;
+    string archivoPNG = archivoBase + ".png";
+    ifstream verificar(archivoPNG);
+    
+    if (verificar.good()) {
+        verificar.close();
+        cout << "(√) PNG generado: " << archivoPNG << endl;
     } else {
-        cout << "✗ Error generando PNG para: " << archivoBase << endl;
+        cout << "(X) Error generando PNG para: " << archivoBase << endl;
     }
 }
 

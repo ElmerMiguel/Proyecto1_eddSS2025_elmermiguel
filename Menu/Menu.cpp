@@ -314,11 +314,8 @@ void Menu::opcionCargarCSV() {
     cout << "       CARGAR DESDE ARCHIVO CSV" << endl;
     mostrarSeparador();
 
-    string ruta;
-    cout << "Ingrese ruta del archivo CSV: ";
-    getline(cin, ruta);
-
-    bm.cargarDesdeCSV(ruta);
+    // Ya no pedimos la ruta aquí, la función se encarga sola
+    bm.cargarDesdeCSV("");  // se pasa vacío para que ella haga el manejo automático
 }
 
 void Menu::opcionBuscarRangoFechas() {
@@ -372,31 +369,11 @@ void Menu::opcionExportarArboles() {
     mostrarSeparador();
     cout << "       EXPORTAR GRAFICOS DE ARBOLES" << endl;
     mostrarSeparador();
-
-    system("mkdir -p graficos_arboles");
     
-    cout << "Exportando arboles a archivos DOT y PNG..." << endl;
-    cout << "\nGenerando ArbolAVL (titulos)..." << endl;
-    bm.exportarAVL("graficos_arboles/avl_titulos.dot");
-    
-    cout << "Generando ArbolB (fechas)..." << endl;
-    bm.exportarB("graficos_arboles/b_fechas.dot");
-    
-    cout << "Generando ArbolBPlus (generos)..." << endl;
-    bm.exportarBPlus("graficos_arboles/bplus_generos.dot");
-    
-    cout << "Generando ArbolBST (ISBN)..." << endl;
-    bm.exportarBST("graficos_arboles/bst_isbn.dot");
+    bm.exportarTodosLosDOTs();
     
     mostrarSeparador();
-    cout << "       ARCHIVOS GENERADOS" << endl;
-    mostrarSeparador();
-    cout << "Carpeta: graficos_arboles/" << endl;
-    cout << "✓ avl_titulos.dot y .png" << endl;
-    cout << "✓ b_fechas.dot y .png" << endl;
-    cout << "✓ bplus_generos.dot y .png" << endl;
-    cout << "✓ bst_isbn.dot y .png" << endl;
-    cout << "\nPuede abrir las imagenes PNG directamente!" << endl;
+    cout << "√ Revisa la carpeta 'graficos_arboles/' para ver las imagenes PNG" << endl;
 }
 
 // Utilidades
