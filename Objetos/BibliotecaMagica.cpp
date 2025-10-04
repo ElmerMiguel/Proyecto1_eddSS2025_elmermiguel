@@ -267,3 +267,37 @@ void BibliotecaMagica::exportarTodosLosDOTs() {
     cout << "=============================================" << endl;
     cout << "Archivos generados en carpeta 'graficos_arboles/'" << endl;
 }
+
+
+
+
+void BibliotecaMagica::mostrarResumenLibros() {
+    cout << "Libros en el sistema:" << endl;
+    cout << "====================" << endl;
+    cout << "     Titulo          | ISBN" << endl;
+    cout << "---------------------+----------------------------------" << endl;
+    listaSecuencial.mostrarTodos();
+    cout << endl;
+}
+
+void BibliotecaMagica::mostrarTitulosDisponibles() {
+    arbolTitulos.listarTitulos();
+}
+
+void BibliotecaMagica::mostrarISBNsDisponibles() {
+    cout << "ISBNs disponibles:" << endl;
+    cout << "=================" << endl;
+    tablaISBN.listarISBNs();
+}
+
+void BibliotecaMagica::mostrarAniosDisponibles() {
+    cout << "Años disponibles:" << endl;
+    cout << "================" << endl;
+    arbolFechas.listarAnios();
+}
+
+void BibliotecaMagica::mostrarGenerosDisponibles() {
+    cout << "Generos disponibles:" << endl;
+    cout << "==================" << endl;
+    arbolGeneros.listarGeneros();
+}

@@ -212,3 +212,22 @@ void ArbolBPlus::recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHoja
         }
     }
 }
+
+
+void ArbolBPlus::listarGeneros() {
+    cout << "Generos disponibles:" << endl;
+    cout << "==================" << endl;
+    
+    if (!raiz) return;
+    
+    NodoBPlus* actual = raiz;
+    while (!actual->hoja) actual = actual->hijos[0];
+    
+    while (actual) {
+        for (size_t i = 0; i < actual->claves.size(); i++) {
+            cout << "- " << actual->claves[i] << " (" << actual->valores[i].size() << " libros)" << endl;
+        }
+        actual = actual->siguiente;
+    }
+    cout << endl;
+}

@@ -29,6 +29,7 @@ private:
 
     void inOrder(NodoAVL* nodo);
     void exportarDOTRec(NodoAVL* nodo, ofstream& out);
+     void listarTitulosRec(NodoAVL* nodo);
 public:
     ArbolAVL();
     void insertar(Libro libro);
@@ -36,6 +37,7 @@ public:
     void mostrarInOrder();
     void exportarDOT(const string& archivo);
     bool eliminar(string titulo);
+    void listarTitulos();              // AGREGAR AQUÍ
 };
 
 

@@ -204,3 +204,21 @@ void ArbolB::exportarDOTRec(NodoB* nodo, ofstream& out, int& id) {
         }
     }
 }
+
+
+
+void ArbolB::listarAnios() {
+    cout << "Años disponibles:" << endl;
+    cout << "================" << endl;
+    if (raiz) listarAniosRec(raiz);
+    cout << endl;
+}
+void ArbolB::listarAniosRec(NodoB* nodo) {
+    if (!nodo) return;
+    
+    for (int i = 0; i < nodo->n; i++) {
+        if (!nodo->hoja) listarAniosRec(nodo->hijos[i]);  // CORREGIDO: llamar método de ArbolB
+        cout << "- " << nodo->claves[i] << " (" << nodo->valores[i].titulo << ")" << endl;
+    }
+    if (!nodo->hoja) listarAniosRec(nodo->hijos[nodo->n]);  // CORREGIDO: llamar método de ArbolB
+}

@@ -201,3 +201,19 @@ void ArbolAVL::exportarDOTRec(NodoAVL* nodo, ofstream& out) {
         exportarDOTRec(nodo->der, out);
     }
 }
+
+
+
+void ArbolAVL::listarTitulos() {
+    cout << "Titulos disponibles:" << endl;
+    cout << "===================" << endl;
+    listarTitulosRec(raiz);
+    cout << endl;
+}
+
+void ArbolAVL::listarTitulosRec(NodoAVL* nodo) {
+    if (!nodo) return;
+    listarTitulosRec(nodo->izq);
+    cout << "- " << nodo->data.titulo << endl;
+    listarTitulosRec(nodo->der);
+}

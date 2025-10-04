@@ -135,3 +135,18 @@ void ArbolBST::exportarDOTRec(NodoBST* nodo, ofstream& out) {
         exportarDOTRec(nodo->der, out);
     }
 }
+
+
+void ArbolBST::listarISBNs() {
+    
+    listarISBNsRec(raiz);
+    cout << endl;
+}
+
+void ArbolBST::listarISBNsRec(NodoBST* nodo) {
+    if (nodo) {
+        listarISBNsRec(nodo->izq);
+        cout << "- " << nodo->data.isbn << " (" << nodo->data.titulo << ")" << endl;
+        listarISBNsRec(nodo->der);
+    }
+}

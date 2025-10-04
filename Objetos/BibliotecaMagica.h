@@ -36,6 +36,19 @@ public:
 
     void mostrarPorTitulo();
 
+
+
+
+      // AGREGAR ESTOS MÉTODOS AQUÍ (después de mostrarPorTitulo):
+    void mostrarResumenLibros();           // Tabla completa para eliminar
+    void mostrarTitulosDisponibles();      // Para búsqueda por título
+    void mostrarISBNsDisponibles();        // Para búsqueda por ISBN  
+    void mostrarAniosDisponibles();        // Para búsqueda por año
+    void mostrarGenerosDisponibles();      // Para búsqueda por género
+
+
+
+
     void cargarDesdeCSV(const std::string& rutaArchivo);
 
     ListaLibros buscarPorRangoFechas(int inicio, int fin);

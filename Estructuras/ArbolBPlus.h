@@ -38,6 +38,7 @@ public:
     vector<Libro> buscar(const string& genero);
     void mostrarTodos();
     void exportarDOT(const string& archivo);
+    void listarGeneros();             // AGREGAR AQUÍ
    
 };
 

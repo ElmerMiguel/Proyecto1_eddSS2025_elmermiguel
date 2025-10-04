@@ -206,16 +206,21 @@ void Menu::opcionEliminar() {
     cout << "         ELIMINAR LIBRO" << endl;
     mostrarSeparador();
 
+    bm.mostrarResumenLibros();
+    mostrarSeparador();
+
     string isbn;
     cout << "Ingrese ISBN del libro a eliminar: ";
     getline(cin, isbn);
     bm.eliminarLibro(isbn);
-    
 }
 
 void Menu::opcionBuscarTitulo() {
     mostrarSeparador();
     cout << "         BUSCAR POR TITULO" << endl;
+    mostrarSeparador();
+
+    bm.mostrarTitulosDisponibles();
     mostrarSeparador();
 
     string titulo;
@@ -239,6 +244,9 @@ void Menu::opcionBuscarISBN() {
     cout << "         BUSCAR POR ISBN" << endl;
     mostrarSeparador();
 
+    bm.mostrarISBNsDisponibles();
+    mostrarSeparador();
+
     string isbn;
     cout << "Ingrese ISBN a buscar: ";
     getline(cin, isbn);
@@ -260,6 +268,9 @@ void Menu::opcionBuscarFecha() {
     cout << "         BUSCAR POR ANIO" << endl;
     mostrarSeparador();
 
+    bm.mostrarAniosDisponibles();
+    mostrarSeparador();
+
     int anio;
     cout << "Ingrese anio a buscar: ";
     cin >> anio;
@@ -279,7 +290,10 @@ void Menu::opcionBuscarFecha() {
 
 void Menu::opcionMostrarPorTitulo() {
     mostrarSeparador();
-    cout << "      LIBROS ORDENADOS POR TITULO" << endl;
+    cout << "       MOSTRAR LIBROS ORDENADOS POR TITULO" << endl;
+    mostrarSeparador();
+    
+    cout << "Libros ordenados alfabeticamente:" << endl;
     mostrarSeparador();
     bm.mostrarPorTitulo();
 }
@@ -287,6 +301,9 @@ void Menu::opcionMostrarPorTitulo() {
 void Menu::opcionBuscarGenero() {
     mostrarSeparador();
     cout << "         BUSCAR POR GENERO" << endl;
+    mostrarSeparador();
+
+    bm.mostrarGenerosDisponibles();
     mostrarSeparador();
 
     string genero;
@@ -314,13 +331,15 @@ void Menu::opcionCargarCSV() {
     cout << "       CARGAR DESDE ARCHIVO CSV" << endl;
     mostrarSeparador();
 
-    // Ya no pedimos la ruta aquí, la función se encarga sola
-    bm.cargarDesdeCSV("");  // se pasa vacío para que ella haga el manejo automático
+    bm.cargarDesdeCSV(""); 
 }
 
 void Menu::opcionBuscarRangoFechas() {
     mostrarSeparador();
     cout << "       BUSCAR POR RANGO DE FECHAS" << endl;
+    mostrarSeparador();
+
+    bm.mostrarAniosDisponibles();
     mostrarSeparador();
 
     int inicio, fin;
@@ -336,9 +355,16 @@ void Menu::opcionBuscarRangoFechas() {
     resultado.mostrarTodos();
 }
 
+
 void Menu::opcionMedirRendimiento() {
     mostrarSeparador();
     cout << "       MEDICION DE RENDIMIENTO" << endl;
+    mostrarSeparador();
+
+    cout << "Datos disponibles para pruebas:" << endl;
+    // bm.mostrarTitulosDisponibles();
+    mostrarSeparador();
+    bm.mostrarISBNsDisponibles();
     mostrarSeparador();
 
     string titulo, isbn;
@@ -363,6 +389,16 @@ void Menu::opcionMedirRendimiento() {
     cout << "\nBusqueda por ISBN:" << endl;
     cout << "  Secuencial:  " << iSec << " microsegundos" << endl;
     cout << "  BST:         " << iBST << " microsegundos" << endl;
+    
+    cout << "\nAnalisis:" << endl;
+    cout << "=========" << endl;
+    cout << "Mejora AVL vs Secuencial: ";
+    if (tAVL < tSec) cout << (tSec - tAVL) << " microsegundos mas rapido" << endl;
+    else cout << (tAVL - tSec) << " microsegundos mas lento" << endl;
+    
+    cout << "Mejora BST vs Secuencial: ";
+    if (iBST < iSec) cout << (iSec - iBST) << " microsegundos mas rapido" << endl;
+    else cout << (iBST - iSec) << " microsegundos mas lento" << endl;
 }
 
 void Menu::opcionExportarArboles() {

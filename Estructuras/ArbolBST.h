@@ -26,6 +26,7 @@ private:
     void inOrder(NodoBST* nodo);
     void exportarDOTRec(NodoBST* nodo, ofstream& out);
     void destruir(NodoBST* nodo);
+     void listarISBNsRec(NodoBST* nodo);  // AGREGAR ESTA LÍNEA
 
 public:
     ArbolBST();
@@ -36,6 +37,7 @@ public:
     bool eliminar(string isbn);
     void mostrarInOrder();
     void exportarDOT(const string& archivo);
+    void listarISBNs();               // AGREGAR AQUÍ
 };
 
 #endif
