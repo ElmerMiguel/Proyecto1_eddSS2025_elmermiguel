@@ -52,7 +52,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
 
     std::string linea;
 
-    // Saltar primera línea (cabecera)
     if (!getline(archivo, linea)) {
         std::cerr << "Archivo vacío o sin cabecera." << std::endl;
         return;
@@ -70,7 +69,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
         if (!getline(ss, anioStr, ',')) continue;
         if (!getline(ss, autor, ',')) continue;
 
-        // Eliminar comillas si las hay
         auto clean = [](std::string& s) {
             if (!s.empty() && s.front() == '"') s.erase(0, 1);
             if (!s.empty() && s.back() == '"') s.pop_back();
@@ -81,7 +79,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
         clean(anioStr);
         clean(autor);
 
-        // Validar año numérico
         int anio;
         try {
             anio = std::stoi(anioStr);
@@ -90,11 +87,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivo) {
             continue;
         }
 
-        // Validar ISBN único
-        if (buscarPorISBN(isbn) != nullptr) {
-            std::cerr << "ISBN duplicado, libro ignorado: " << isbn << std::endl;
-            continue;
-        }
 
         Libro libro(titulo, isbn, genero, anio, autor);
         agregarLibro(libro);
@@ -126,7 +118,7 @@ long long BibliotecaMagica::medirBusquedaTituloAVL(const string& titulo) {
     return duration_cast<microseconds>(end - start).count();
 }
 
-long long BibliotecaMagica::medirBusquedaISBNHash(const string& isbn) {
+long long BibliotecaMagica::medirBusquedaISBNBST(const string& isbn) {
     auto start = high_resolution_clock::now();
     tablaISBN.buscar(isbn);
     auto end = high_resolution_clock::now();
@@ -150,4 +142,8 @@ void BibliotecaMagica::exportarB(const string& archivo) {
 
 void BibliotecaMagica::exportarBPlus(const string& archivo) {
     arbolGeneros.exportarDOT(archivo);
+}
+
+void BibliotecaMagica::exportarBST(const string& archivo) {
+    tablaISBN.exportarDOT(archivo);
 }

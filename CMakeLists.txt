@@ -10,8 +10,6 @@ add_executable(Proyecto1_eddSS2025 main.cpp
         Estructuras/ArbolB.h
         Estructuras/ArbolBPlus.cpp
         Estructuras/ArbolBPlus.h
-        Estructuras/hola.cpp
-        Estructuras/hola.h
         Estructuras/HashTable.cpp
         Estructuras/HashTable.h
         Estructuras/ListaLibros.cpp
@@ -21,4 +19,6 @@ add_executable(Proyecto1_eddSS2025 main.cpp
         Objetos/BibliotecaMagica.cpp
         Objetos/BibliotecaMagica.h
         Objetos/Libro.cpp
-        Objetos/Libro.h)
+        Objetos/Libro.h
+        Estructuras/ArbolBST.cpp
+        Estructuras/ArbolBST.h)

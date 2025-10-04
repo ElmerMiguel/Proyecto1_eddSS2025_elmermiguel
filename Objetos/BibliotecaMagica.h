@@ -1,4 +1,3 @@
-
 #ifndef BIBLIOTECAMAGICA_H
 #define BIBLIOTECAMAGICA_H
 
@@ -6,7 +5,7 @@
 #include "../Estructuras/ListaLibros.h"
 #include "../Estructuras/ArbolAVL.h"
 #include "../Estructuras/ArbolB.h"
-#include "../Estructuras/HashTable.h"
+#include "../Estructuras/ArbolBST.h"
 #include "../Estructuras/ArbolBPlus.h"
 #include <vector>
 #include <string>
@@ -17,7 +16,7 @@ private:
     ListaLibros listaSecuencial;
     ArbolAVL arbolTitulos;
     ArbolB arbolFechas;
-    HashTable tablaISBN;
+    ArbolBST tablaISBN;
     ArbolBPlus arbolGeneros;
 
 public:
@@ -38,15 +37,13 @@ public:
 
     long long medirBusquedaTituloSecuencial(const string& titulo);
     long long medirBusquedaTituloAVL(const string& titulo);
-    long long medirBusquedaISBNHash(const string& isbn);
+    long long medirBusquedaISBNBST(const string& isbn);
     long long medirBusquedaISBNSecuencial(const string& isbn);
 
     void exportarAVL(const string& archivo);
     void exportarB(const string& archivo);
     void exportarBPlus(const string& archivo);
-
-
+    void exportarBST(const string& archivo);
 };
 
-
-#endif 
+#endif

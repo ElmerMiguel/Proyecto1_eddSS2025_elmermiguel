@@ -86,7 +86,7 @@ void Menu::submenuBusquedas() {
         cout << "         BUSQUEDAS ESPECIALIZADAS" << endl;
         mostrarSeparador();
         cout << "1. Buscar por titulo (Arbol AVL)" << endl;
-        cout << "2. Buscar por ISBN (Tabla Hash)" << endl;
+        cout << "2. Buscar por ISBN (Arbol BST)" << endl;
         cout << "3. Buscar por anio especifico (Arbol B)" << endl;
         cout << "4. Buscar por genero (Arbol B+)" << endl;
         cout << "5. Buscar por rango de fechas (Arbol B)" << endl;
@@ -355,7 +355,7 @@ void Menu::opcionMedirRendimiento() {
     long long tSec = bm.medirBusquedaTituloSecuencial(titulo);
     long long tAVL = bm.medirBusquedaTituloAVL(titulo);
     long long iSec = bm.medirBusquedaISBNSecuencial(isbn);
-    long long iHash = bm.medirBusquedaISBNHash(isbn);
+    long long iBST = bm.medirBusquedaISBNBST(isbn);
 
     mostrarSeparador();
     cout << "       RESULTADOS DE RENDIMIENTO" << endl;
@@ -365,7 +365,7 @@ void Menu::opcionMedirRendimiento() {
     cout << "  AVL:         " << tAVL << " microsegundos" << endl;
     cout << "\nBusqueda por ISBN:" << endl;
     cout << "  Secuencial:  " << iSec << " microsegundos" << endl;
-    cout << "  Hash:        " << iHash << " microsegundos" << endl;
+    cout << "  BST:         " << iBST << " microsegundos" << endl;
 }
 
 void Menu::opcionExportarArboles() {
@@ -377,10 +377,12 @@ void Menu::opcionExportarArboles() {
     bm.exportarAVL("avl.dot");
     bm.exportarB("b.dot");
     bm.exportarBPlus("bplus.dot");
+    bm.exportarBST("bst.dot");
     cout << "\nArchivos generados:" << endl;
     cout << "- avl.dot (Arbol AVL de titulos)" << endl;
     cout << "- b.dot (Arbol B de fechas)" << endl;
     cout << "- bplus.dot (Arbol B+ de generos)" << endl;
+    cout << "- bst.dot (Arbol BST de ISBN)" << endl;
     cout << "\nPara generar imagenes, use:" << endl;
     cout << "dot -Tpng archivo.dot -o salida.png" << endl;
 }

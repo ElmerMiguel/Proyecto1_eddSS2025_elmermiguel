@@ -73,12 +73,6 @@ build CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o: CXX_COMPI
   OBJECT_DIR = CMakeFiles/Proyecto1_eddSS2025.dir
   OBJECT_FILE_DIR = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras
 
-build CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/hola.cpp.o: CXX_COMPILER__Proyecto1_eddSS2025_unscanned_Debug /home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/Estructuras/hola.cpp || cmake_object_order_depends_target_Proyecto1_eddSS2025
-  DEP_FILE = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/hola.cpp.o.d
-  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
-  OBJECT_DIR = CMakeFiles/Proyecto1_eddSS2025.dir
-  OBJECT_FILE_DIR = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras
-
 build CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/HashTable.cpp.o: CXX_COMPILER__Proyecto1_eddSS2025_unscanned_Debug /home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/Estructuras/HashTable.cpp || cmake_object_order_depends_target_Proyecto1_eddSS2025
   DEP_FILE = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/HashTable.cpp.o.d
   FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
@@ -109,6 +103,12 @@ build CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/Libro.cpp.o: CXX_COMPILER__Proy
   OBJECT_DIR = CMakeFiles/Proyecto1_eddSS2025.dir
   OBJECT_FILE_DIR = CMakeFiles/Proyecto1_eddSS2025.dir/Objetos
 
+build CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBST.cpp.o: CXX_COMPILER__Proyecto1_eddSS2025_unscanned_Debug /home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/Estructuras/ArbolBST.cpp || cmake_object_order_depends_target_Proyecto1_eddSS2025
+  DEP_FILE = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBST.cpp.o.d
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Proyecto1_eddSS2025.dir
+  OBJECT_FILE_DIR = CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras
+
 
 # =============================================================================
 # Link build statements for EXECUTABLE target Proyecto1_eddSS2025
@@ -117,7 +117,7 @@ build CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/Libro.cpp.o: CXX_COMPILER__Proy
 #############################################
 # Link the executable Proyecto1_eddSS2025
 
-build Proyecto1_eddSS2025: CXX_EXECUTABLE_LINKER__Proyecto1_eddSS2025_Debug CMakeFiles/Proyecto1_eddSS2025.dir/main.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolAVL.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolB.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/hola.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/HashTable.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ListaLibros.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/BibliotecaMagica.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/Libro.cpp.o
+build Proyecto1_eddSS2025: CXX_EXECUTABLE_LINKER__Proyecto1_eddSS2025_Debug CMakeFiles/Proyecto1_eddSS2025.dir/main.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolAVL.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolB.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBPlus.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/HashTable.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ListaLibros.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Menu/Menu.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/BibliotecaMagica.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Objetos/Libro.cpp.o CMakeFiles/Proyecto1_eddSS2025.dir/Estructuras/ArbolBST.cpp.o
   FLAGS = -g
   OBJECT_DIR = CMakeFiles/Proyecto1_eddSS2025.dir
   POST_BUILD = :
