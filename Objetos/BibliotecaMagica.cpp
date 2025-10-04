@@ -17,10 +17,21 @@ void BibliotecaMagica::agregarLibro(Libro libro) {
 }
 
 void BibliotecaMagica::eliminarLibro(string isbn) {
+    Libro* libro = tablaISBN.buscar(isbn);
+    if (!libro) {
+        cout << "Libro con ISBN " << isbn << " no encontrado." << endl;
+        return;
+    }
+    
+    string titulo = libro->titulo;
+    
     listaSecuencial.eliminar(isbn);
+    arbolTitulos.eliminar(titulo);
     tablaISBN.eliminar(isbn);
-    // Falta implementar eliminaciones en AVL y B
+    
+    cout << "Libro eliminado correctamente: " << titulo << endl;
 }
+
 
 Libro* BibliotecaMagica::buscarPorTitulo(string titulo) {
     return arbolTitulos.buscar(titulo);

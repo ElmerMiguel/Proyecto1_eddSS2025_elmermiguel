@@ -66,6 +66,86 @@ NodoAVL* ArbolAVL::buscar(NodoAVL* nodo, string titulo) {
     return buscar(nodo->der, titulo);
 }
 
+
+
+// ...existing code...
+
+NodoAVL* ArbolAVL::encontrarMin(NodoAVL* nodo) {
+    while (nodo && nodo->izq) {
+        nodo = nodo->izq;
+    }
+    return nodo;
+}
+
+NodoAVL* ArbolAVL::eliminar(NodoAVL* nodo, string titulo) {
+    if (!nodo) return nodo;
+
+    if (titulo < nodo->data.titulo) {
+        nodo->izq = eliminar(nodo->izq, titulo);
+    } else if (titulo > nodo->data.titulo) {
+        nodo->der = eliminar(nodo->der, titulo);
+    } else {
+        // Nodo encontrado - eliminar
+        if (!nodo->izq || !nodo->der) {
+            NodoAVL* temp = nodo->izq ? nodo->izq : nodo->der;
+            if (!temp) {
+                temp = nodo;
+                nodo = nullptr;
+            } else {
+                *nodo = *temp;
+            }
+            delete temp;
+        } else {
+            // Nodo con dos hijos - encontrar sucesor inorder
+            NodoAVL* temp = encontrarMin(nodo->der);
+            nodo->data = temp->data;
+            nodo->der = eliminar(nodo->der, temp->data.titulo);
+        }
+    }
+
+    if (!nodo) return nodo;
+
+    // Actualizar altura
+    nodo->altura = 1 + max(altura(nodo->izq), altura(nodo->der));
+
+    // Verificar balance y rotar si es necesario
+    int balanceFactor = balance(nodo);
+
+    // Rotacion izquierda-izquierda
+    if (balanceFactor > 1 && balance(nodo->izq) >= 0)
+        return rotacionDerecha(nodo);
+
+    // Rotacion derecha-derecha
+    if (balanceFactor < -1 && balance(nodo->der) <= 0)
+        return rotacionIzquierda(nodo);
+
+    // Rotacion izquierda-derecha
+    if (balanceFactor > 1 && balance(nodo->izq) < 0) {
+        nodo->izq = rotacionIzquierda(nodo->izq);
+        return rotacionDerecha(nodo);
+    }
+
+    // Rotacion derecha-izquierda
+    if (balanceFactor < -1 && balance(nodo->der) > 0) {
+        nodo->der = rotacionDerecha(nodo->der);
+        return rotacionIzquierda(nodo);
+    }
+
+    return nodo;
+}
+
+bool ArbolAVL::eliminar(string titulo) {
+    NodoAVL* original = raiz;
+    raiz = eliminar(raiz, titulo);
+    return raiz != original || buscar(titulo) == nullptr;
+}
+
+// ...existing code...
+
+
+
+
+
 void ArbolAVL::inOrder(NodoAVL* nodo) {
     if (!nodo) return;
     inOrder(nodo->izq);

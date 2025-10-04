@@ -24,6 +24,9 @@ private:
     NodoAVL* rotacionIzquierda(NodoAVL* x);
     NodoAVL* insertar(NodoAVL* nodo, Libro libro);
     NodoAVL* buscar(NodoAVL* nodo, string titulo);
+    NodoAVL* eliminar(NodoAVL* nodo, string titulo);
+    NodoAVL* encontrarMin(NodoAVL* nodo);
+
     void inOrder(NodoAVL* nodo);
     void exportarDOTRec(NodoAVL* nodo, ofstream& out);
 public:
@@ -32,6 +35,7 @@ public:
     Libro* buscar(string titulo);
     void mostrarInOrder();
     void exportarDOT(const string& archivo);
+    bool eliminar(string titulo);
 };
 
 
