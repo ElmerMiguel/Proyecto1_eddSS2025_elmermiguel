@@ -15,13 +15,14 @@ public:
     int n;
     bool hoja;
     int t;
-
     NodoB(int _t, bool _hoja);
     void recorrer();
     NodoB* buscar(int k);
+    int buscarIndice(int k);
     void insertarNoLleno(Libro libro);
     void dividirHijo(int i, NodoB* y);
     void buscarRango(int inicio, int fin, ListaLibros& lista);
+    
 };
 
 class ArbolB {

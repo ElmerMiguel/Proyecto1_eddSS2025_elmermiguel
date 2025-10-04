@@ -10,8 +10,6 @@ add_executable(Proyecto1_eddSS2025 main.cpp
         Estructuras/ArbolB.h
         Estructuras/ArbolBPlus.cpp
         Estructuras/ArbolBPlus.h
-        Estructuras/HashTable.cpp
-        Estructuras/HashTable.h
         Estructuras/ListaLibros.cpp
         Estructuras/ListaLibros.h
         Menu/Menu.cpp

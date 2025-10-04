@@ -26,7 +26,14 @@ NodoB* NodoB::buscar(int k) {
     while (i < n && k > claves[i]) i++;
     if (i < n && claves[i] == k) return this;
     if (hoja) return nullptr;
-    return  hijos[i]->buscar(k);
+    return hijos[i]->buscar(k);
+}
+
+int NodoB::buscarIndice(int k) {
+    int i = 0;
+    while (i < n && k > claves[i]) i++;
+    if (i < n && claves[i] == k) return i;
+    return -1; 
 }
 
 ArbolB::ArbolB(int _t) {
@@ -59,8 +66,14 @@ void ArbolB::recorrer() {
     if(raiz != nullptr) raiz->recorrer();
 }
 
+
 Libro* ArbolB::buscar(int k) {
-    return  (raiz == nullptr) ? nullptr : &raiz->buscar(k)->valores[0];
+    if (raiz == nullptr) return nullptr;
+    NodoB* nodo = raiz->buscar(k);
+    if (!nodo) return nullptr;
+    
+    int indice = nodo->buscarIndice(k);
+    return (indice >= 0) ? &nodo->valores[indice] : nullptr;
 }
 
 void NodoB::insertarNoLleno(Libro libro) {
@@ -129,12 +142,12 @@ void NodoB::dividirHijo(int i, NodoB* y) {
 void NodoB::buscarRango(int inicio, int fin, ListaLibros& lista) {
     int i = 0;
     while (i < n && claves[i] < inicio) {
-        if (!hoja) hijos[i]->buscarRango(inicio, fin, lista);
+        if (!hoja && hijos[i]) hijos[i]->buscarRango(inicio, fin, lista);
         i++;
     }
 
     while (i < n && claves[i] <= fin) {
-        if (!hoja) hijos[i]->buscarRango(inicio, fin, lista);
+        if (!hoja && hijos[i]) hijos[i]->buscarRango(inicio, fin, lista);
 
         if (claves[i] >= inicio && claves[i] <= fin) {
             lista.insertar(valores[i]);
@@ -142,7 +155,7 @@ void NodoB::buscarRango(int inicio, int fin, ListaLibros& lista) {
         i++;
     }
 
-    if (!hoja) hijos[i]->buscarRango(inicio, fin, lista);
+    if (!hoja && i < 2*t && hijos[i]) hijos[i]->buscarRango(inicio, fin, lista);
 }
 
 ListaLibros ArbolB::buscarPorRangoFechas(int inicio, int fin) {
@@ -170,23 +183,24 @@ void ArbolB::exportarDOT(const string& archivo) {
     out.close();
 }
 
+
 void ArbolB::exportarDOTRec(NodoB* nodo, ofstream& out, int& id) {
     if (!nodo) return;
     int nodoId = id++;
 
-    // Crear etiqueta del nodo
     out << "n" << nodoId << " [label=\"";
     for (int i = 0; i < nodo->n; i++) {
         out << "<f" << i << "> |" << nodo->claves[i] << "| ";
     }
     out << "<f" << nodo->n << ">\"];\n";
 
-    // Recursión a los hijos
     if (!nodo->hoja) {
         for (int i = 0; i <= nodo->n; i++) {
-            int childId = id;
-            exportarDOTRec(nodo->hijos[i], out, id);
-            out << "\"n" << nodoId << "\":f" << i << " -> \"n" << childId << "\";\n";
+            if (nodo->hijos[i]) {
+                int childId = id;
+                exportarDOTRec(nodo->hijos[i], out, id);
+                out << "\"n" << nodoId << "\":f" << i << " -> \"n" << childId << "\";\n";
+            }
         }
     }
 }
