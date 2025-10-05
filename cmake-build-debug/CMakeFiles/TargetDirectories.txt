@@ -1,3 +1,0 @@
-/home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/cmake-build-debug/CMakeFiles/Proyecto1_eddSS2025.dir
-/home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/elmermekel/Documentos/EddSS2025/Proyecto1_eddSS2025/cmake-build-debug/CMakeFiles/rebuild_cache.dir
