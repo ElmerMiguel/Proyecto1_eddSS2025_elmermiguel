@@ -292,8 +292,6 @@ void BibliotecaMagica::mostrarResumenLibros() {
 }
 
 void BibliotecaMagica::mostrarTitulosDisponibles() {
-    cout << "Titulos disponibles:" << endl;
-    cout << "===================" << endl;
     arbolTitulos.listarTitulos();
 }
 
