@@ -215,8 +215,7 @@ void ArbolBPlus::recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHoja
 
 
 void ArbolBPlus::listarGeneros() {
-    cout << "Generos disponibles:" << endl;
-    cout << "==================" << endl;
+
     
     if (!raiz) return;
     
