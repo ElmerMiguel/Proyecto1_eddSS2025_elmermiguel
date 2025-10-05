@@ -37,7 +37,7 @@ public:
     void mostrarInOrder();
     void exportarDOT(const string& archivo);
     bool eliminar(string titulo);
-    void listarTitulos();              // AGREGAR AQUÍ
+    void listarTitulos();
 };
 
 

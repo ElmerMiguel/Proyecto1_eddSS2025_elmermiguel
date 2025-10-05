@@ -30,7 +30,7 @@ private:
     NodoB* raiz;
     int t;
     void exportarDOTRec(NodoB* nodo, ofstream& out, int& id);
-    void listarAniosRec(NodoB* nodo);  // AGREGAR ESTA LÍNEA
+    void listarAniosRec(NodoB* nodo);
 public:
     ArbolB(int _t);
     void insertar(Libro libro);
@@ -38,7 +38,7 @@ public:
     Libro* buscar(int k);
     ListaLibros buscarPorRangoFechas(int inicio, int fin);
     void exportarDOT(const string& archivo);
-    void listarAnios();               // AGREGAR AQUÍ
+    void listarAnios();
 };
 
 

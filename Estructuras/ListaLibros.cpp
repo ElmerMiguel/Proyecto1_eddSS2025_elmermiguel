@@ -43,7 +43,9 @@ Libro* ListaLibros::buscarPorISBN(string isbn){
         if(actual->data.isbn == isbn) return &actual->data;
         actual = actual->siguiente;
     }
+    return nullptr;
 }
+
 
 void ListaLibros::mostrarTodos() {
     NodoLista* actual = cabeza;
