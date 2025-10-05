@@ -76,8 +76,6 @@ not a dynamic executable
 
 ---
 
-
-
 ## 🪟 Paso a paso para compilar estáticamente en Windows
 
 ### 🥇 Paso 1: Crear el archivo de toolchain
@@ -208,11 +206,12 @@ Guárdalo como `build.bat` y ejecútalo con doble clic o desde terminal.
 - Puedes compilar en servidores, contenedores o CI/CD
 - Puedes automatizar limpieza, empaquetado, pruebas, etc.
 
-
-
 -----
 
 # Script curzado lin y win
+
+para compilar windows desde linux, tener instalado:
+ `sudo apt install mingw-w64`
 
 Crear en la raiz del proyecto:
 
@@ -242,15 +241,9 @@ x86_64-w64-mingw32-objdump -p build-windows/Proyecto1_eddSS2025.exe | grep DLL |
 echo "🎉 Compilación completa para ambos sistemas."
 ```
 
-
-
 *nota: agregar lo siguiente al fiinal de CMakeLists.txt:*
 
 `set_target_properties(Proyecto1_eddSS2025 PROPERTIES LINK_FLAGS "-static -static-libgcc -static-libstdc++") `
-
-
-
-
 
 ---
 
@@ -267,5 +260,4 @@ cmake --build build-windows
 
 echo "Verificando binario..."
 x86_64-w64-mingw32-objdump -p build-windows/Proyecto1_eddSS2025.exe | grep DLL || echo "Binario estático generado correctamente."
-
 ```
