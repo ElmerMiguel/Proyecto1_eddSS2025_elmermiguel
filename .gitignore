@@ -47,5 +47,11 @@
 
 # for clion
 cmake-build-debug/
-!cmake-build-debug/csv/
-!cmake-build-debug/csv/**
+
+# ---------
+.idea/
+.vscode/
+
+build-linux/
+build-windows/
+
