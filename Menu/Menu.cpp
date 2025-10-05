@@ -187,18 +187,25 @@ void Menu::opcionAgregar() {
 
     cout << "Ingrese titulo: ";
     getline(cin, titulo);
-    cout << "Ingrese ISBN: ";
+    
+    cout << "Ingrese ISBN (formato: 978-XX-XXXX-XXX-X): ";
     getline(cin, isbn);
+    
     cout << "Ingrese genero: ";
     getline(cin, genero);
-    cout << "Ingrese anio: ";
-    cin >> anio;
+    
+    cout << "Ingrese anio (1000-2025): ";
+    while (!(cin >> anio) || anio < 1000 || anio > 2025) {
+        cout << "Error: Ingrese un anio valido entre 1000 y 2025: ";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
     cin.ignore();
+    
     cout << "Ingrese autor: ";
     getline(cin, autor);
 
     bm.agregarLibro(Libro(titulo, isbn, genero, anio, autor));
-    
 }
 
 void Menu::opcionEliminar() {
@@ -362,7 +369,8 @@ void Menu::opcionMedirRendimiento() {
     mostrarSeparador();
 
     cout << "Datos disponibles para pruebas:" << endl;
-    // bm.mostrarTitulosDisponibles();
+    cout << "===============================" << endl;
+    bm.mostrarTitulosDisponibles();
     mostrarSeparador();
     bm.mostrarISBNsDisponibles();
     mostrarSeparador();
@@ -372,6 +380,17 @@ void Menu::opcionMedirRendimiento() {
     getline(cin, titulo);
     cout << "Ingrese ISBN a medir: ";
     getline(cin, isbn);
+
+    // AGREGAR validaciones de existencia
+    Libro* libroTitulo = bm.buscarPorTitulo(titulo);
+    Libro* libroISBN = bm.buscarPorISBN(isbn);
+    
+    if (!libroTitulo) {
+        cout << "Advertencia: El titulo '" << titulo << "' no existe en el sistema." << endl;
+    }
+    if (!libroISBN) {
+        cout << "Advertencia: El ISBN '" << isbn << "' no existe en el sistema." << endl;
+    }
 
     cout << "\nMidiendo rendimiento..." << endl;
 
@@ -383,6 +402,15 @@ void Menu::opcionMedirRendimiento() {
     mostrarSeparador();
     cout << "       RESULTADOS DE RENDIMIENTO" << endl;
     mostrarSeparador();
+    
+    if (libroTitulo) {
+        cout << "Libro encontrado por titulo: " << libroTitulo->titulo << " (" << libroTitulo->autor << ")" << endl;
+    }
+    if (libroISBN) {
+        cout << "Libro encontrado por ISBN: " << libroISBN->titulo << " (" << libroISBN->autor << ")" << endl;
+    }
+    
+    cout << "\nTiempos de busqueda:" << endl;
     cout << "Busqueda por titulo:" << endl;
     cout << "  Secuencial:  " << tSec << " microsegundos" << endl;
     cout << "  AVL:         " << tAVL << " microsegundos" << endl;
@@ -390,15 +418,22 @@ void Menu::opcionMedirRendimiento() {
     cout << "  Secuencial:  " << iSec << " microsegundos" << endl;
     cout << "  BST:         " << iBST << " microsegundos" << endl;
     
-    cout << "\nAnalisis:" << endl;
-    cout << "=========" << endl;
-    cout << "Mejora AVL vs Secuencial: ";
-    if (tAVL < tSec) cout << (tSec - tAVL) << " microsegundos mas rapido" << endl;
-    else cout << (tAVL - tSec) << " microsegundos mas lento" << endl;
+    cout << "\nAnalisis de eficiencia:" << endl;
+    cout << "=======================" << endl;
     
-    cout << "Mejora BST vs Secuencial: ";
-    if (iBST < iSec) cout << (iSec - iBST) << " microsegundos mas rapido" << endl;
-    else cout << (iBST - iSec) << " microsegundos mas lento" << endl;
+    if (tAVL < tSec) {
+        cout << "AVL es " << (tSec - tAVL) << " microsegundos mas rapido que busqueda secuencial (titulo)" << endl;
+        cout << "Mejora: " << ((double)(tSec - tAVL) / tSec * 100) << "% mas eficiente" << endl;
+    } else {
+        cout << "Busqueda secuencial es " << (tAVL - tSec) << " microsegundos mas rapida (pocos datos)" << endl;
+    }
+    
+    if (iBST < iSec) {
+        cout << "BST es " << (iSec - iBST) << " microsegundos mas rapido que busqueda secuencial (ISBN)" << endl;
+        cout << "Mejora: " << ((double)(iSec - iBST) / iSec * 100) << "% mas eficiente" << endl;
+    } else {
+        cout << "Busqueda secuencial es " << (iBST - iSec) << " microsegundos mas rapida (pocos datos)" << endl;
+    }
 }
 
 void Menu::opcionExportarArboles() {

@@ -13,20 +13,38 @@ using namespace std::chrono;
 BibliotecaMagica::BibliotecaMagica() : arbolFechas(3), arbolGeneros(2) {}
 
 void BibliotecaMagica::agregarLibro(Libro libro) {
+    // Validar ISBN
+    if (!validarISBN(libro.isbn)) {
+        cout << "Error: ISBN invalido. Formato correcto: 978-XX-XXXX-XXX-X" << endl;
+        return;
+    }
+
     if (tablaISBN.buscar(libro.isbn) != nullptr) {
         cout << "Error: Ya existe un libro con ISBN " << libro.isbn << endl;
         cout << "No se puede agregar libro duplicado." << endl;
         return;
     }
-    
+
+    // Validar campos vacíos
+    if (libro.titulo.empty() || libro.autor.empty() || libro.genero.empty()) {
+        cout << "Error: Todos los campos son obligatorios." << endl;
+        return;
+    }
+
+    if (libro.anio < 1000 || libro.anio > 2025) {
+        cout << "Error: Año debe estar entre 1000 y 2025." << endl;
+        return;
+    }
+
     listaSecuencial.insertar(libro);
     arbolTitulos.insertar(libro);
     arbolFechas.insertar(libro);
     tablaISBN.insertar(libro);
     arbolGeneros.insertar(libro);
-    
+
     cout << "Libro agregado correctamente: " << libro.titulo << endl;
 }
+
 
 void BibliotecaMagica::eliminarLibro(string isbn) {
     Libro* libro = tablaISBN.buscar(isbn);
@@ -67,52 +85,52 @@ vector<Libro> BibliotecaMagica::buscarPorGenero(string genero) {
 
 
 
-
 void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") {
     namespace fs = std::filesystem;
     std::string rutaArchivo = rutaArchivoParam;
 
-if (rutaArchivo.empty()) {
-    std::string carpeta = "./csv";
-    std::vector<std::string> archivosCSV;
+    // === SELECCIÓN DEL ARCHIVO CSV ===
+    if (rutaArchivo.empty()) {
+        std::string carpeta = "./csv";
+        std::vector<std::string> archivosCSV;
 
-    if (fs::exists(carpeta) && fs::is_directory(carpeta)) {
-        for (const auto& entry : fs::directory_iterator(carpeta)) {
-            if (entry.is_regular_file() && entry.path().extension() == ".csv") {
-                archivosCSV.push_back(entry.path().filename().string()); 
+        if (fs::exists(carpeta) && fs::is_directory(carpeta)) {
+            for (const auto& entry : fs::directory_iterator(carpeta)) {
+                if (entry.is_regular_file() && entry.path().extension() == ".csv") {
+                    archivosCSV.push_back(entry.path().filename().string());
+                }
             }
         }
-    }
 
-    if (!archivosCSV.empty()) {
-        std::cout << "\n=== ARCHIVOS CSV DISPONIBLES EN ./CSV===" << std::endl;
-        for (size_t i = 0; i < archivosCSV.size(); ++i) {
-            std::cout << i + 1 << ". " << archivosCSV[i] << std::endl;
-        }
-        std::cout << "0. Ingresar ruta manual" << std::endl;
-        std::cout << "Seleccione una opcion: ";
+        if (!archivosCSV.empty()) {
+            std::cout << "\n=== ARCHIVOS CSV DISPONIBLES EN ./CSV ===" << std::endl;
+            for (size_t i = 0; i < archivosCSV.size(); ++i) {
+                std::cout << i + 1 << ". " << archivosCSV[i] << std::endl;
+            }
+            std::cout << "0. Ingresar ruta manual" << std::endl;
+            std::cout << "Seleccione una opcion: ";
 
-        int opcion;
-        std::cin >> opcion;
-        std::cin.ignore(); 
+            int opcion;
+            std::cin >> opcion;
+            std::cin.ignore();
 
-        if (opcion == 0) {
-            std::cout << "Ingrese la ruta del archivo CSV: ";
-            std::getline(std::cin, rutaArchivo);
-        } else if (opcion > 0 && opcion <= (int)archivosCSV.size()) {
-            rutaArchivo = carpeta + "/" + archivosCSV[opcion - 1];
+            if (opcion == 0) {
+                std::cout << "Ingrese la ruta del archivo CSV: ";
+                std::getline(std::cin, rutaArchivo);
+            } else if (opcion > 0 && opcion <= (int)archivosCSV.size()) {
+                rutaArchivo = carpeta + "/" + archivosCSV[opcion - 1];
+            } else {
+                std::cerr << "Opcion invalida. Cancelando importacion." << std::endl;
+                return;
+            }
         } else {
-            std::cerr << "Opcion invalida. Cancelando importacion." << std::endl;
-            return;
+            std::cout << "No se encontraron archivos CSV en ./csv.\n";
+            std::cout << "Ingrese la ruta manual del archivo CSV: ";
+            std::getline(std::cin, rutaArchivo);
         }
-    } else {
-        std::cout << "No se encontraron archivos CSV en ./csv.\n";
-        std::cout << "Ingrese la ruta manual del archivo CSV: ";
-        std::getline(std::cin, rutaArchivo);
     }
-}
 
-
+    // === LECTURA DEL ARCHIVO ===
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()) {
         std::cerr << "Error: no se pudo abrir el archivo " << rutaArchivo << std::endl;
@@ -123,11 +141,13 @@ if (rutaArchivo.empty()) {
     int librosImportados = 0;
     int librosIgnorados = 0;
 
+    // Omitir cabecera
     if (!getline(archivo, linea)) {
         std::cerr << "Archivo vacio o sin cabecera." << std::endl;
         return;
     }
 
+    // === PROCESAMIENTO DE CADA LÍNEA ===
     while (getline(archivo, linea)) {
         if (linea.empty()) continue;
 
@@ -150,6 +170,14 @@ if (rutaArchivo.empty()) {
         clean(anioStr);
         clean(autor);
 
+        // === VALIDACIÓN DE ISBN ===
+        if (!validarISBN(isbn)) {
+            std::cerr << "(X) ISBN invalido ignorado: " << isbn << " - " << titulo << std::endl;
+            librosIgnorados++;
+            continue;
+        }
+
+        // === VALIDACIÓN DE AÑO ===
         int anio;
         try {
             anio = std::stoi(anioStr);
@@ -159,25 +187,33 @@ if (rutaArchivo.empty()) {
             continue;
         }
 
+        // === VALIDACIÓN DE DUPLICADO ===
         if (tablaISBN.buscar(isbn) != nullptr) {
             std::cerr << "(X) ISBN duplicado ignorado: " << isbn << " - " << titulo << std::endl;
             librosIgnorados++;
             continue;
         }
 
+        // === INSERCIÓN EN TODAS LAS ESTRUCTURAS ===
         Libro libro(titulo, isbn, genero, anio, autor);
-        agregarLibro(libro);
+        listaSecuencial.insertar(libro);
+        arbolTitulos.insertar(libro);
+        arbolFechas.insertar(libro);
+        tablaISBN.insertar(libro);
+        arbolGeneros.insertar(libro);
+
         std::cout << "(√) Importado: " << titulo << std::endl;
         librosImportados++;
     }
 
     archivo.close();
+
+    // === RESUMEN FINAL ===
     std::cout << "\n=== RESUMEN IMPORTACION ===" << std::endl;
     std::cout << "Libros importados correctamente: " << librosImportados << std::endl;
     std::cout << "Libros ignorados por duplicados/errores: " << librosIgnorados << std::endl;
     std::cout << "Carga desde CSV completada." << std::endl;
 }
-
 
 
 
@@ -312,4 +348,42 @@ void BibliotecaMagica::mostrarGenerosDisponibles() {
     cout << "Generos disponibles:" << endl;
     cout << "==================" << endl;
     arbolGeneros.listarGeneros();
+}
+
+
+bool BibliotecaMagica::validarISBN(const string& isbn) {
+    // Eliminar espacios y guiones para análisis
+    string isbnLimpio = "";
+    for (char c : isbn) {
+        if (isdigit(c)) {
+            isbnLimpio += c;
+        }
+    }
+    
+    // Debe tener exactamente 13 dígitos
+    if (isbnLimpio.length() != 13) {
+        return false;
+    }
+    
+    // Verificar prefijo GS1 (978 o 979)
+    string prefijo = isbnLimpio.substr(0, 3);
+    if (prefijo != "978" && prefijo != "979") {
+        return false;
+    }
+    
+    // Validar dígito de verificación usando el algoritmo oficial ISBN-13
+    int suma = 0;
+    for (int i = 0; i < 12; i++) {
+        int digito = isbnLimpio[i] - '0';
+        if (i % 2 == 0) {
+            suma += digito;      // Posiciones impares (1, 3, 5, ...) factor 1
+        } else {
+            suma += digito * 3;  // Posiciones pares (2, 4, 6, ...) factor 3
+        }
+    }
+    
+    int digitoVerificacion = (10 - (suma % 10)) % 10;
+    int digitoISBN = isbnLimpio[12] - '0';
+    
+    return digitoVerificacion == digitoISBN;
 }

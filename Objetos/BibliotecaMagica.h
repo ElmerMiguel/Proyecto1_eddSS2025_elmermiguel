@@ -22,6 +22,7 @@ private:
     ArbolBST tablaISBN;
     ArbolBPlus arbolGeneros;
     void generarPNGdesdeDOT(const string& archivoBase);
+    bool validarISBN(const string& isbn);
     
 
 public:
