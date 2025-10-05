@@ -37,7 +37,7 @@ public:
     bool eliminar(string isbn);
     void mostrarInOrder();
     void exportarDOT(const string& archivo);
-    void listarISBNs();               // AGREGAR AQUÍ
+    void listarISBNs();              
 };
 
 #endif

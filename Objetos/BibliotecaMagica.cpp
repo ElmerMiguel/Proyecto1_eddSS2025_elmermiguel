@@ -72,7 +72,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
     namespace fs = std::filesystem;
     std::string rutaArchivo = rutaArchivoParam;
 
- // === NUEVO BLOQUE: manejo de carpeta ./csv ===
 if (rutaArchivo.empty()) {
     std::string carpeta = "./csv";
     std::vector<std::string> archivosCSV;

@@ -39,7 +39,7 @@ NodoAVL* ArbolAVL::insertar(NodoAVL* nodo, Libro libro) {
     else if (libro.titulo > nodo->data.titulo)
         nodo->der = insertar(nodo->der, libro);
     else
-        return nodo; // duplicado
+        return nodo; 
 
     nodo->altura = 1 + max(altura(nodo->izq), altura(nodo->der));
     int balanceFactor = balance(nodo);
@@ -205,8 +205,7 @@ void ArbolAVL::exportarDOTRec(NodoAVL* nodo, ofstream& out) {
 
 
 void ArbolAVL::listarTitulos() {
-    cout << "Titulos disponibles:" << endl;
-    cout << "===================" << endl;
+    
     listarTitulosRec(raiz);
     cout << endl;
 }
