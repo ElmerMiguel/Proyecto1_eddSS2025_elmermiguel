@@ -238,35 +238,46 @@ void BibliotecaMagica::exportarBST(const string& archivo) {
 
 
 
-void BibliotecaMagica::generarPNGdesdeDOT(const string& archivoBase) {
-    string comandoDOT = "dot -Tpng " + archivoBase + ".dot -o " + archivoBase + ".png 2>/dev/null";
+void BibliotecaMagica::generarPNGdesdeDOT(const std::string& archivoBase) {
+    namespace fs = std::filesystem;
+
+    fs::path dotFile = archivoBase + ".dot";
+    fs::path pngFile = archivoBase + ".png";
+
+#ifdef _WIN32
+    std::string comandoDOT = "dot -Tpng \"" + dotFile.string() + "\" -o \"" + pngFile.string() + "\" 2>nul";
+#else
+    std::string comandoDOT = "dot -Tpng '" + dotFile.string() + "' -o '" + pngFile.string() + "' 2>/dev/null";
+#endif
+
     int resultado = system(comandoDOT.c_str());
-    
-    string archivoPNG = archivoBase + ".png";
-    ifstream verificar(archivoPNG);
-    
+
+    std::ifstream verificar(pngFile);
     if (verificar.good()) {
         verificar.close();
-        cout << "(√) PNG generado: " << archivoPNG << endl;
+        std::cout << "(√) PNG generado: " << pngFile.string() << std::endl;
     } else {
-        cout << "(X) Error generando PNG para: " << archivoBase << endl;
+        std::cout << "(X) Error generando PNG para: " << archivoBase << std::endl;
     }
 }
 
 void BibliotecaMagica::exportarTodosLosDOTs() {
-    system("mkdir -p graficos_arboles");
-    
-    cout << "Exportando todos los arboles a DOT y PNG..." << endl;
-    cout << "=============================================" << endl;
-    
+    namespace fs = std::filesystem;
+
+    fs::create_directories("graficos_arboles");
+
+    std::cout << "Exportando todos los arboles a DOT y PNG..." << std::endl;
+    std::cout << "=============================================" << std::endl;
+
     exportarAVL("graficos_arboles/arbol_avl_titulos.dot");
     exportarB("graficos_arboles/arbol_b_fechas.dot");
     exportarBST("graficos_arboles/arbol_bst_isbn.dot");
     exportarBPlus("graficos_arboles/arbol_bplus_generos.dot");
-    
-    cout << "=============================================" << endl;
-    cout << "Archivos generados en carpeta 'graficos_arboles/'" << endl;
+
+    std::cout << "=============================================" << std::endl;
+    std::cout << "Archivos generados en carpeta 'graficos_arboles/'" << std::endl;
 }
+
 
 
 
