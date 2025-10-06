@@ -1,5 +1,10 @@
-
 #include "ListaLibros.h"
+#include <iomanip>
+#include <algorithm>
+#include <string>
+using namespace std;
+
+using namespace std;
 
 ListaLibros::ListaLibros() {
     cabeza = nullptr;
@@ -48,9 +53,47 @@ Libro* ListaLibros::buscarPorISBN(string isbn){
 
 
 void ListaLibros::mostrarTodos() {
+    if (cabeza == nullptr) {
+        cout << "No hay libros en el rango especificado." << endl;
+        return;
+    }
+
+    // Calcular anchos máximos dinámicamente
+    int maxTitulo = 6; // "TITULO"
+    int maxAutor = 5;  // "AUTOR"
+    int maxAnio = 3;   // "AÑO"
+    int maxISBN = 4;   // "ISBN"
+
     NodoLista* actual = cabeza;
-    while (actual != nullptr){
-        cout << actual->data.titulo << " (" << actual->data.isbn << ") " << endl;
+    int contador = 0;
+    while (actual != nullptr) {
+        maxTitulo = max(maxTitulo, (int)actual->data.titulo.length());
+        maxAutor = max(maxAutor, (int)actual->data.autor.length());
+        maxAnio = max(maxAnio, (int)to_string(actual->data.anio).length());
+        maxISBN = max(maxISBN, (int)actual->data.isbn.length());
+        actual = actual->siguiente;
+        contador++;
+    }
+
+    cout << "\nTotal de libros encontrados: " << contador << endl;
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+
+    cout << left << setw(maxTitulo + 2) << "TITULO"
+         << left << setw(maxAutor + 2) << "AUTOR"
+         << left << setw(maxAnio + 4) << "AÑO"
+         << left << setw(maxISBN + 2) << "ISBN" << endl;
+
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+
+    actual = cabeza;
+    while (actual != nullptr) {
+        cout << left << setw(maxTitulo + 2) << actual->data.titulo
+             << left << setw(maxAutor + 2) << actual->data.autor
+             << left << setw(maxAnio + 4) << actual->data.anio
+             << left << setw(maxISBN + 2) << actual->data.isbn
+             << endl;
         actual = actual->siguiente;
     }
+
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
 }

@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include <iostream>
 #include <limits>
+#include <iomanip> 
+#include <algorithm>
 using namespace std;
 
 Menu::Menu() : bm() {}
@@ -185,26 +187,29 @@ void Menu::opcionAgregar() {
     string titulo, isbn, genero, autor;
     int anio;
 
-    cout << "Ingrese titulo: ";
+    cout << "Complete la informacion del nuevo libro:" << endl;
+    cout << string(50, '-') << endl;
+    cout << "Titulo: ";
     getline(cin, titulo);
     
-    cout << "Ingrese ISBN (formato: 978-XX-XXXX-XXX-X): ";
+    cout << "ISBN (formato: 978-XX-XXXX-XXX-X): ";
     getline(cin, isbn);
     
-    cout << "Ingrese genero: ";
+    cout << "Genero: ";
     getline(cin, genero);
     
-    cout << "Ingrese anio (1000-2025): ";
+    cout << "Año de publicacion (1000-2025): ";
     while (!(cin >> anio) || anio < 1000 || anio > 2025) {
-        cout << "Error: Ingrese un anio valido entre 1000 y 2025: ";
+        cout << "Error: Ingrese un año valido entre 1000 y 2025: ";
         cin.clear();
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     }
     cin.ignore();
     
-    cout << "Ingrese autor: ";
+    cout << "Autor: ";
     getline(cin, autor);
 
+    cout << "\nProcesando nuevo libro..." << endl;
     bm.agregarLibro(Libro(titulo, isbn, genero, anio, autor));
 }
 
@@ -213,15 +218,17 @@ void Menu::opcionEliminar() {
     cout << "         ELIMINAR LIBRO" << endl;
     mostrarSeparador();
 
+    cout << "Resumen de libros disponibles:" << endl;
     bm.mostrarResumenLibros();
     mostrarSeparador();
 
     string isbn;
     cout << "Ingrese ISBN del libro a eliminar: ";
     getline(cin, isbn);
+    
+    cout << "\nConfirmando eliminacion..." << endl;
     bm.eliminarLibro(isbn);
 }
-
 void Menu::opcionBuscarTitulo() {
     mostrarSeparador();
     cout << "         BUSCAR POR TITULO" << endl;
@@ -236,13 +243,15 @@ void Menu::opcionBuscarTitulo() {
     Libro* l = bm.buscarPorTitulo(titulo);
     if (l) {
         cout << "\nLibro encontrado:" << endl;
-        cout << "Titulo: " << l->titulo << endl;
-        cout << "Autor: " << l->autor << endl;
-        cout << "ISBN: " << l->isbn << endl;
-        cout << "Genero: " << l->genero << endl;
-        cout << "Anio: " << l->anio << endl;
+        cout << string(80, '=') << endl;
+        cout << left << setw(12) << "TITULO:"    << l->titulo << endl;
+        cout << left << setw(12) << "AUTOR:"     << l->autor << endl;
+        cout << left << setw(12) << "GENERO:"    << l->genero << endl;
+        cout << left << setw(12) << "AÑO:"       << l->anio << endl;
+        cout << left << setw(12) << "ISBN:"      << l->isbn << endl;
+        cout << string(80, '=') << endl;
     } else {
-        cout << "\nNo se encontro el libro." << endl;
+        cout << "\nNo se encontro el libro con titulo: '" << titulo << "'." << endl;
     }
 }
 
@@ -260,16 +269,17 @@ void Menu::opcionBuscarISBN() {
     Libro* l = bm.buscarPorISBN(isbn);
     if (l) {
         cout << "\nLibro encontrado:" << endl;
-        cout << "Titulo: " << l->titulo << endl;
-        cout << "Autor: " << l->autor << endl;
-        cout << "ISBN: " << l->isbn << endl;
-        cout << "Genero: " << l->genero << endl;
-        cout << "Anio: " << l->anio << endl;
+        cout << string(80, '=') << endl;
+        cout << left << setw(12) << "TITULO:"    << l->titulo << endl;
+        cout << left << setw(12) << "AUTOR:"     << l->autor << endl;
+        cout << left << setw(12) << "GENERO:"    << l->genero << endl;
+        cout << left << setw(12) << "AÑO:"       << l->anio << endl;
+        cout << left << setw(12) << "ISBN:"      << l->isbn << endl;
+        cout << string(80, '=') << endl;
     } else {
-        cout << "\nNo se encontro el libro." << endl;
+        cout << "\nNo se encontro el libro con ISBN: '" << isbn << "'." << endl;
     }
 }
-
 void Menu::opcionBuscarFecha() {
     mostrarSeparador();
     cout << "         BUSCAR POR ANIO" << endl;
@@ -288,16 +298,38 @@ void Menu::opcionBuscarFecha() {
     if (libros.empty()) {
         cout << "\nNo se encontro ningun libro de " << anio << "." << endl;
     } else {
-        cout << "\nLibros encontrados en " << anio << ":" << endl;
-        mostrarSeparador();
-        for (const auto& l : libros) {
-            cout << "Titulo: " << l.titulo << endl;
-            cout << "Autor: " << l.autor << endl;
-            cout << "ISBN: " << l.isbn << endl;
-            cout << "Genero: " << l.genero << endl;
-            cout << "Anio: " << l.anio << endl;
-            cout << "---" << endl;
+        // APLICAR FORMATO TABLA DINÁMICA
+        int maxTitulo = 6; // "TITULO"
+        int maxAutor = 5;  // "AUTOR"
+        int maxGenero = 6; // "GENERO"
+        int maxISBN = 4;   // "ISBN"
+
+        for (const auto& libro : libros) {
+            maxTitulo = max(maxTitulo, (int)libro.titulo.length());
+            maxAutor = max(maxAutor, (int)libro.autor.length());
+            maxGenero = max(maxGenero, (int)libro.genero.length());
+            maxISBN = max(maxISBN, (int)libro.isbn.length());
         }
+
+        cout << "\nTotal de libros encontrados en " << anio << ": " << libros.size() << endl;
+        cout << string(maxTitulo + maxAutor + maxGenero + maxISBN + 12, '=') << endl;
+
+        cout << left << setw(maxTitulo + 2) << "TITULO"
+             << left << setw(maxAutor + 2) << "AUTOR"
+             << left << setw(maxGenero + 2) << "GENERO"
+             << left << setw(maxISBN + 2) << "ISBN" << endl;
+
+        cout << string(maxTitulo + maxAutor + maxGenero + maxISBN + 12, '=') << endl;
+
+        for (const auto& l : libros) {
+            cout << left << setw(maxTitulo + 2) << l.titulo
+                 << left << setw(maxAutor + 2) << l.autor
+                 << left << setw(maxGenero + 2) << l.genero
+                 << left << setw(maxISBN + 2) << l.isbn
+                 << endl;
+        }
+
+        cout << string(maxTitulo + maxAutor + maxGenero + maxISBN + 12, '=') << endl;
     }
 }
 
@@ -327,15 +359,39 @@ void Menu::opcionBuscarGenero() {
     if (libros.empty()) {
         cout << "\nNo se encontraron libros del genero " << genero << "." << endl;
     } else {
-        cout << "\nLibros encontrados en el genero " << genero << ":" << endl;
-        mostrarSeparador();
-        for (const auto& l : libros) {
-            cout << "Titulo: " << l.titulo << endl;
-            cout << "Autor: " << l.autor << endl;
-            cout << "Anio: " << l.anio << endl;
-            cout << "ISBN: " << l.isbn << endl;
-            cout << "---" << endl;
+        // APLICAR FORMATO TABLA DINÁMICA
+        // Calcular anchos máximos
+        int maxTitulo = 6; // "TITULO"
+        int maxAutor = 5;  // "AUTOR"
+        int maxAnio = 3;   // "AÑO"
+        int maxISBN = 4;   // "ISBN"
+
+        for (const auto& libro : libros) {
+            maxTitulo = max(maxTitulo, (int)libro.titulo.length());
+            maxAutor = max(maxAutor, (int)libro.autor.length());
+            maxAnio = max(maxAnio, (int)to_string(libro.anio).length());
+            maxISBN = max(maxISBN, (int)libro.isbn.length());
         }
+
+        cout << "\nTotal de libros encontrados en '" << genero << "': " << libros.size() << endl;
+        cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+
+        cout << left << setw(maxTitulo + 2) << "TITULO"
+             << left << setw(maxAutor + 2) << "AUTOR"
+             << left << setw(maxAnio + 4) << "AÑO"
+             << left << setw(maxISBN + 2) << "ISBN" << endl;
+
+        cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+
+        for (const auto& l : libros) {
+            cout << left << setw(maxTitulo + 2) << l.titulo
+                 << left << setw(maxAutor + 2) << l.autor
+                 << left << setw(maxAnio + 4) << l.anio
+                 << left << setw(maxISBN + 2) << l.isbn
+                 << endl;
+        }
+
+        cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
     }
 }
 

@@ -323,9 +323,6 @@ void BibliotecaMagica::exportarTodosLosDOTs() {
 
 void BibliotecaMagica::mostrarResumenLibros() {
     cout << "Libros en el sistema:" << endl;
-    cout << "====================" << endl;
-    cout << "     Titulo          | ISBN" << endl;
-    cout << "---------------------+----------------------------------" << endl;
     listaSecuencial.mostrarTodos();
     cout << endl;
 }
