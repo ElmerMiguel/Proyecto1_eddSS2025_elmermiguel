@@ -472,17 +472,12 @@ Proyecto1_eddSS2025/
     └── ManualTecnico.md
 ```
 
-### Patrones de Diseño Utilizados
-
-1. **Singleton**: Para la gestión de la biblioteca
-2. **Strategy**: Para diferentes algoritmos de búsqueda
-3. **Template**: Para reutilización de código en estructuras
-4. **Observer**: Para notificaciones de cambios
+### Paradigma de programación
+- Programación Orientada a objetos.
 
 ### Consideraciones de Rendimiento
 
 - Uso de punteros inteligentes para gestión de memoria
-- Implementación de pools de memoria para nodos
 - Optimización de cache mediante localidad de referencia
 - Medición de tiempos con alta precisión
 
