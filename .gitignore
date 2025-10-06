@@ -54,5 +54,5 @@ cmake-build-debug/
 
 build-linux/
 build-windows/
-# dist/
+dist/
 
