@@ -387,17 +387,24 @@ void Menu::opcionMedirRendimiento() {
     cout << "Ingrese ISBN a medir: ";
     getline(cin, isbn);
 
-    // AGREGAR validaciones de existencia
     Libro* libroTitulo = bm.buscarPorTitulo(titulo);
     Libro* libroISBN = bm.buscarPorISBN(isbn);
     
     if (!libroTitulo) {
-        cout << "Advertencia: El titulo '" << titulo << "' no existe en el sistema." << endl;
+        cout << "\nError: El titulo '" << titulo << "' no existe en el sistema." << endl;
+        cout << "Por favor seleccione un titulo de la lista mostrada arriba." << endl;
+        return; 
     }
     if (!libroISBN) {
-        cout << "Advertencia: El ISBN '" << isbn << "' no existe en el sistema." << endl;
+        cout << "\nError: El ISBN '" << isbn << "' no existe en el sistema." << endl;
+        cout << "Por favor seleccione un ISBN de la lista mostrada arriba." << endl;
+        return;  
     }
 
+    cout << "\nDatos validados correctamente:" << endl;
+    cout << "Titulo: " << libroTitulo->titulo << " (" << libroTitulo->autor << ")" << endl;
+    cout << "ISBN: " << libroISBN->isbn << " (" << libroISBN->titulo << ")" << endl;
+    
     cout << "\nMidiendo rendimiento..." << endl;
 
     long long tSec = bm.medirBusquedaTituloSecuencial(titulo);
@@ -409,36 +416,37 @@ void Menu::opcionMedirRendimiento() {
     cout << "       RESULTADOS DE RENDIMIENTO" << endl;
     mostrarSeparador();
     
-    if (libroTitulo) {
-        cout << "Libro encontrado por titulo: " << libroTitulo->titulo << " (" << libroTitulo->autor << ")" << endl;
-    }
-    if (libroISBN) {
-        cout << "Libro encontrado por ISBN: " << libroISBN->titulo << " (" << libroISBN->autor << ")" << endl;
-    }
-    
-    cout << "\nTiempos de busqueda:" << endl;
-    cout << "Busqueda por titulo:" << endl;
+    cout << "Tiempos de busqueda:" << endl;
+    cout << "Busqueda por titulo '" << titulo << "':" << endl;
     cout << "  Secuencial:  " << tSec << " microsegundos" << endl;
     cout << "  AVL:         " << tAVL << " microsegundos" << endl;
-    cout << "\nBusqueda por ISBN:" << endl;
+    cout << "\nBusqueda por ISBN '" << isbn << "':" << endl;
     cout << "  Secuencial:  " << iSec << " microsegundos" << endl;
     cout << "  BST:         " << iBST << " microsegundos" << endl;
     
     cout << "\nAnalisis de eficiencia:" << endl;
     cout << "=======================" << endl;
     
+    cout << "Busqueda por titulo:" << endl;
     if (tAVL < tSec) {
-        cout << "AVL es " << (tSec - tAVL) << " microsegundos mas rapido que busqueda secuencial (titulo)" << endl;
-        cout << "Mejora: " << ((double)(tSec - tAVL) / tSec * 100) << "% mas eficiente" << endl;
+        cout << "  GANADOR: AVL (" << tAVL << " vs " << tSec << " microsegundos)" << endl;
+        cout << "  Mejora: " << (tSec - tAVL) << " microsegundos mas rapido" << endl;
+    } else if (tSec < tAVL) {
+        cout << "  GANADOR: Secuencial (" << tSec << " vs " << tAVL << " microsegundos)" << endl;
+        cout << "  Diferencia: " << (tAVL - tSec) << " microsegundos" << endl;
     } else {
-        cout << "Busqueda secuencial es " << (tAVL - tSec) << " microsegundos mas rapida (pocos datos)" << endl;
+        cout << "  EMPATE: Ambos metodos tardaron " << tSec << " microsegundos" << endl;
     }
     
+    cout << "\nBusqueda por ISBN:" << endl;
     if (iBST < iSec) {
-        cout << "BST es " << (iSec - iBST) << " microsegundos mas rapido que busqueda secuencial (ISBN)" << endl;
-        cout << "Mejora: " << ((double)(iSec - iBST) / iSec * 100) << "% mas eficiente" << endl;
+        cout << "  GANADOR: BST (" << iBST << " vs " << iSec << " microsegundos)" << endl; 
+        cout << "  Mejora: " << (iSec - iBST) << " microsegundos mas rapido" << endl;
+    } else if (iSec < iBST) {
+        cout << "  GANADOR: Secuencial (" << iSec << " vs " << iBST << " microsegundos)" << endl;
+        cout << "  Diferencia: " << (iBST - iSec) << " microsegundos" << endl;
     } else {
-        cout << "Busqueda secuencial es " << (iBST - iSec) << " microsegundos mas rapida (pocos datos)" << endl;
+        cout << "  EMPATE: Ambos metodos tardaron " << iSec << " microsegundos" << endl;
     }
 }
 
