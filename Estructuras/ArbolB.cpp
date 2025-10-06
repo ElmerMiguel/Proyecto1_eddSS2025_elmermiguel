@@ -1,6 +1,7 @@
 
 #include "ArbolB.h"
 #include <fstream>
+#include <vector> 
 
 NodoB::NodoB(int _t, bool _hoja) {
     if (_t < 2) throw invalid_argument("El grado minimo del Arbol B debe ser >= 2");
@@ -246,4 +247,28 @@ void ArbolB::eliminarRec(NodoB* nodo, int anio, string isbn) {
         }
     }
     if (!nodo->hoja) eliminarRec(nodo->hijos[nodo->n], anio, isbn);
+}
+
+
+
+vector<Libro> ArbolB::buscarTodos(int k) {
+    vector<Libro> resultados;
+    if (raiz != nullptr) {
+        buscarTodosRec(raiz, k, resultados);
+    }
+    return resultados;
+}
+
+void ArbolB::buscarTodosRec(NodoB* nodo, int k, vector<Libro>& resultados) {
+    if (!nodo) return;
+    
+    for (int i = 0; i < nodo->n; i++) {
+        if (!nodo->hoja) buscarTodosRec(nodo->hijos[i], k, resultados);
+        
+        // Si encontramos el año, agregar a resultados
+        if (nodo->claves[i] == k) {
+            resultados.push_back(nodo->valores[i]);
+        }
+    }
+    if (!nodo->hoja) buscarTodosRec(nodo->hijos[nodo->n], k, resultados);
 }

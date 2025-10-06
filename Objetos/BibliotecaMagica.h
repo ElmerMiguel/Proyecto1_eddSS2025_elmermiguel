@@ -32,7 +32,7 @@ public:
 
     Libro* buscarPorTitulo(string titulo);
     Libro* buscarPorISBN(string isbn);
-    Libro* buscarPorFecha(int anio);
+    vector<Libro> buscarPorFecha(int anio);
     vector<Libro> buscarPorGenero(string genero);
 
     void mostrarPorTitulo();

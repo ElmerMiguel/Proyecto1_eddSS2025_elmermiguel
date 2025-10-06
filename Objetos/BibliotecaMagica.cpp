@@ -75,8 +75,8 @@ Libro* BibliotecaMagica::buscarPorISBN(string isbn) {
     return tablaISBN.buscar(isbn);
 }
 
-Libro* BibliotecaMagica::buscarPorFecha(int anio) {
-    return arbolFechas.buscar(anio);
+vector<Libro> BibliotecaMagica::buscarPorFecha(int anio) {
+    return arbolFechas.buscarTodos(anio);  
 }
 
 void BibliotecaMagica::mostrarPorTitulo() {

@@ -282,16 +282,22 @@ void Menu::opcionBuscarFecha() {
     cout << "Ingrese anio a buscar: ";
     cin >> anio;
     cin.ignore();
-    Libro* l = bm.buscarPorFecha(anio);
-    if (l) {
-        cout << "\nLibro encontrado:" << endl;
-        cout << "Titulo: " << l->titulo << endl;
-        cout << "Autor: " << l->autor << endl;
-        cout << "ISBN: " << l->isbn << endl;
-        cout << "Genero: " << l->genero << endl;
-        cout << "Anio: " << l->anio << endl;
+    
+    vector<Libro> libros = bm.buscarPorFecha(anio);
+    
+    if (libros.empty()) {
+        cout << "\nNo se encontro ningun libro de " << anio << "." << endl;
     } else {
-        cout << "\nNo se encontro ningun libro de ese anio." << endl;
+        cout << "\nLibros encontrados en " << anio << ":" << endl;
+        mostrarSeparador();
+        for (const auto& l : libros) {
+            cout << "Titulo: " << l.titulo << endl;
+            cout << "Autor: " << l.autor << endl;
+            cout << "ISBN: " << l.isbn << endl;
+            cout << "Genero: " << l.genero << endl;
+            cout << "Anio: " << l.anio << endl;
+            cout << "---" << endl;
+        }
     }
 }
 

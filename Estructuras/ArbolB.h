@@ -5,6 +5,7 @@
 #include "../Objetos/Libro.h"
 #include "ListaLibros.h"
 #include <iostream>
+#include <vector> 
 using namespace std;
 
 class NodoB {
@@ -32,6 +33,7 @@ private:
     void exportarDOTRec(NodoB* nodo, ofstream& out, int& id);
     void listarAniosRec(NodoB* nodo);
     void eliminarRec(NodoB* nodo, int anio, string isbn); 
+    void buscarTodosRec(NodoB* nodo, int k, vector<Libro>& resultados); 
 public:
     ArbolB(int _t);
     void insertar(Libro libro);
@@ -41,6 +43,7 @@ public:
     void exportarDOT(const string& archivo);
     void listarAnios();
     bool eliminar(int anio, string isbn); 
+    vector<Libro> buscarTodos(int k);
 };
 
 
