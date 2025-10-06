@@ -3,6 +3,7 @@
 #include <limits>
 #include <iomanip> 
 #include <algorithm>
+#include <map>
 using namespace std;
 
 Menu::Menu() : bm() {}

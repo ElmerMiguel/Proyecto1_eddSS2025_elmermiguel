@@ -6,6 +6,7 @@
 #include <filesystem>  
 #include <vector>       
 #include <cstdlib>
+#include <map>
 
 using namespace std::chrono;
 
@@ -346,8 +347,7 @@ void BibliotecaMagica::mostrarAniosDisponibles() {
 }
 
 void BibliotecaMagica::mostrarGenerosDisponibles() {
-    cout << "Generos disponibles:" << endl;
-    cout << "==================" << endl;
+
     arbolGeneros.listarGeneros();
 }
 

@@ -2,6 +2,8 @@
 #include "ArbolB.h"
 #include <fstream>
 #include <vector> 
+#include <map>       
+#include <iomanip>  
 
 NodoB::NodoB(int _t, bool _hoja) {
     if (_t < 2) throw invalid_argument("El grado minimo del Arbol B debe ser >= 2");
@@ -209,18 +211,41 @@ void ArbolB::exportarDOTRec(NodoB* nodo, ofstream& out, int& id) {
 
 
 void ArbolB::listarAnios() {
-
-    if (raiz) listarAniosRec(raiz);
-    cout << endl;
+    if (!raiz) {
+        cout << "No hay libros registrados." << endl;
+        return;
+    }
+    
+    map<int, int> aniosConteo;
+    listarAniosRec(raiz, aniosConteo);
+    
+    if (aniosConteo.empty()) {
+        cout << "No hay años disponibles." << endl;
+        return;
+    }
+    
+    cout << "Total de años disponibles: " << aniosConteo.size() << endl;
+    cout << "==============================" << endl;
+    cout << left << setw(8) << "AÑO" << "CANTIDAD DE LIBROS" << endl;
+    cout << "==============================" << endl;
+    
+    for (const auto& par : aniosConteo) {
+        cout << left << setw(8) << par.first << par.second << " libros" << endl;
+    }
+    cout << "==============================" << endl;
 }
-void ArbolB::listarAniosRec(NodoB* nodo) {
+
+
+
+void ArbolB::listarAniosRec(NodoB* nodo, map<int, int>& aniosConteo) {
     if (!nodo) return;
     
     for (int i = 0; i < nodo->n; i++) {
-        if (!nodo->hoja) listarAniosRec(nodo->hijos[i]);  
-        cout << "- " << nodo->claves[i] << " (" << nodo->valores[i].titulo << ")" << endl;
+        if (!nodo->hoja) listarAniosRec(nodo->hijos[i], aniosConteo);
+        
+        aniosConteo[nodo->claves[i]]++;
     }
-    if (!nodo->hoja) listarAniosRec(nodo->hijos[nodo->n]); 
+    if (!nodo->hoja) listarAniosRec(nodo->hijos[nodo->n], aniosConteo);
 }
 
 
