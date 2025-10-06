@@ -243,18 +243,3 @@ Proyecto1_eddSS2025/
 ---
 
 *Manual Técnico v1.0 - Biblioteca Mágica*  
-
-```dot
-digraph BST_Structure {
-    node [shape=circle, style=filled, fillcolor=lightcoral];
-
-    50 -> 30;
-    50 -> 70;
-    30 -> 20;
-    30 -> 40;
-    70 -> 60;
-    70 -> 80;
-
-    label="Ejemplo: Árbol BST\nOrdenado por ISBN";
-}
-```
