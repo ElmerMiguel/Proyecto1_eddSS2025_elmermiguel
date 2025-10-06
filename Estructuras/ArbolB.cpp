@@ -83,18 +83,15 @@ void NodoB::insertarNoLleno(Libro libro) {
     int i = n - 1;
 
     if (hoja) {
-        // Mover claves mayores hacia adelante
         while (i >= 0 && claves[i] > libro.anio) {
             claves[i + 1] = claves[i];
             valores[i + 1] = valores[i];
             i--;
         }
-        // Insertar nueva clave
         claves[i + 1] = libro.anio;
         valores[i + 1] = libro;
         n++;
     } else {
-        // Encontrar el hijo adecuado
         while (i >= 0 && claves[i] > libro.anio) i--;
 
         if (hijos[i + 1]->n == 2 * t - 1) {
@@ -110,13 +107,11 @@ void NodoB::dividirHijo(int i, NodoB* y) {
     NodoB* z = new NodoB(y->t, y->hoja);
     z->n = t - 1;
 
-    // Copiar últimas (t-1) claves de y en z
     for (int j = 0; j < t - 1; j++) {
         z->claves[j] = y->claves[j + t];
         z->valores[j] = y->valores[j + t];
     }
 
-    // Copiar hijos si no es hoja
     if (!y->hoja) {
         for (int j = 0; j < t; j++) {
             z->hijos[j] = y->hijos[j + t];
@@ -125,13 +120,11 @@ void NodoB::dividirHijo(int i, NodoB* y) {
 
     y->n = t - 1;
 
-    // Mover hijos del nodo actual
     for (int j = n; j >= i + 1; j--) {
         hijos[j + 1] = hijos[j];
     }
     hijos[i + 1] = z;
 
-    // Mover claves del nodo actual
     for (int j = n - 1; j >= i; j--) {
         claves[j + 1] = claves[j];
         valores[j + 1] = valores[j];

@@ -212,7 +212,6 @@ void ArbolAVL::listarTitulos() {
     cout << "Titulos disponibles:" << endl;
     cout << "===================" << endl;
     
-    // Recopilar todos los libros para calcular anchos
     vector<Libro> todosLosLibros;
     recopilarLibros(raiz, todosLosLibros);
     

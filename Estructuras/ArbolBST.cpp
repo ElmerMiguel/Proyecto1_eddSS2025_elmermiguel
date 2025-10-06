@@ -67,7 +67,6 @@ NodoBST* ArbolBST::eliminar(NodoBST* nodo, string isbn) {
     } else if (isbn > nodo->data.isbn) {
         nodo->der = eliminar(nodo->der, isbn);
     } else {
-        // Nodo encontrado - eliminar
         if (!nodo->izq) {
             NodoBST* temp = nodo->der;
             delete nodo;
@@ -78,7 +77,6 @@ NodoBST* ArbolBST::eliminar(NodoBST* nodo, string isbn) {
             return temp;
         }
         
-        // Nodo con dos hijos - encontrar sucesor inorder
         NodoBST* temp = encontrarMin(nodo->der);
         nodo->data = temp->data;
         nodo->der = eliminar(nodo->der, temp->data.isbn);

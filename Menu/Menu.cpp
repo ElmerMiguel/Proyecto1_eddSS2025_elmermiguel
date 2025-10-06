@@ -299,11 +299,10 @@ void Menu::opcionBuscarFecha() {
     if (libros.empty()) {
         cout << "\nNo se encontro ningun libro de " << anio << "." << endl;
     } else {
-        // APLICAR FORMATO TABLA DINÁMICA
-        int maxTitulo = 6; // "TITULO"
-        int maxAutor = 5;  // "AUTOR"
-        int maxGenero = 6; // "GENERO"
-        int maxISBN = 4;   // "ISBN"
+        int maxTitulo = 6; 
+        int maxAutor = 5;  
+        int maxGenero = 6; 
+        int maxISBN = 4;   
 
         for (const auto& libro : libros) {
             maxTitulo = max(maxTitulo, (int)libro.titulo.length());

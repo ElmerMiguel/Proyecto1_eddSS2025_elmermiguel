@@ -33,7 +33,6 @@ void ArbolBPlus::insertar(const Libro& libro) {
 
 void ArbolBPlus::insertarInterno(NodoBPlus* nodo, const Libro& libro, const string& genero) {
     if (nodo->hoja) {
-        // si el genero ya existe se agrega el libro
         for (size_t i = 0; i < nodo->claves.size(); i++) {
             if (nodo->claves[i] == genero) {
                 nodo->valores[i].push_back(libro);
@@ -41,7 +40,6 @@ void ArbolBPlus::insertarInterno(NodoBPlus* nodo, const Libro& libro, const stri
             }
         }
 
-        // insertar nuevo genero y mantener orden
         nodo->claves.push_back(genero);
         nodo->valores.push_back({libro});
         for (size_t i = nodo->claves.size() - 1; i > 0; i--) {
@@ -102,7 +100,6 @@ vector<Libro> ArbolBPlus::buscar(const string& genero) {
         actual = actual->hijos[0];
     }
 
-    // recorrer hojas enlazadas
     while (actual) {
         for (size_t i = 0; i < actual->claves.size(); i++) {
             if (actual->claves[i] == genero) {
@@ -266,7 +263,6 @@ void ArbolBPlus::listarGeneros() {
     NodoBPlus* actual = raiz;
     while (!actual->hoja) actual = actual->hijos[0];
     
-    // Recorrer todas las hojas y consolidar
     while (actual) {
         for (size_t i = 0; i < actual->claves.size(); i++) {
             generosConsolidados[actual->claves[i]] += actual->valores[i].size();
@@ -284,7 +280,7 @@ void ArbolBPlus::listarGeneros() {
     
     for (const auto& par : generosConsolidados) {
         maxGenero = max(maxGenero, (int)par.first.length());
-        maxCantidad = max(maxCantidad, (int)to_string(par.second).length() + 7); // " libros"
+        maxCantidad = max(maxCantidad, (int)to_string(par.second).length() + 7); 
     }
     
     cout << "\nGeneros disponibles:" << endl;
