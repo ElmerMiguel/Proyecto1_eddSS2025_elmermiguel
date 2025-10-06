@@ -329,20 +329,16 @@ void BibliotecaMagica::mostrarResumenLibros() {
 }
 
 void BibliotecaMagica::mostrarTitulosDisponibles() {
-    cout << "Titulos disponibles:" << endl;
-    cout << "===================" << endl;
+
     arbolTitulos.listarTitulos();
 }
 
 void BibliotecaMagica::mostrarISBNsDisponibles() {
-    cout << "ISBNs disponibles:" << endl;
-    cout << "=================" << endl;
     tablaISBN.listarISBNs();
 }
 
 void BibliotecaMagica::mostrarAniosDisponibles() {
-    cout << "Años disponibles:" << endl;
-    cout << "================" << endl;
+
     arbolFechas.listarAnios();
 }
 

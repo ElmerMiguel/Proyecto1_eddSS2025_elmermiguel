@@ -5,6 +5,11 @@
 #include "../Objetos/Libro.h"
 #include <iostream>
 #include <fstream>
+#include <vector>    
+#include <iomanip>    
+#include <algorithm>  
+#include <string>     
+#include <fstream> 
 using namespace std;
 
 struct NodoBST {
@@ -26,7 +31,9 @@ private:
     void inOrder(NodoBST* nodo);
     void exportarDOTRec(NodoBST* nodo, ofstream& out);
     void destruir(NodoBST* nodo);
-     void listarISBNsRec(NodoBST* nodo);
+
+
+    void recopilarLibros(NodoBST* nodo, vector<Libro>& libros);
 
 public:
     ArbolBST();
