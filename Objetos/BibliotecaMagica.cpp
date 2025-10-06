@@ -356,38 +356,16 @@ void BibliotecaMagica::mostrarGenerosDisponibles() {
 
 
 bool BibliotecaMagica::validarISBN(const string& isbn) {
-    // Eliminar espacios y guiones para análisis
-    string isbnLimpio = "";
+    string isbnLimpio;
     for (char c : isbn) {
-        if (isdigit(c)) {
-            isbnLimpio += c;
-        }
+        if (isdigit(c)) isbnLimpio += c;
     }
-    
-    // Debe tener exactamente 13 dígitos
-    if (isbnLimpio.length() != 13) {
-        return false;
+
+    if (isbnLimpio.length() != 13) return false;
+
+    for (char c : isbnLimpio) {
+        if (!isdigit(c)) return false;
     }
-    
-    // Verificar prefijo GS1 (978 o 979)
-    string prefijo = isbnLimpio.substr(0, 3);
-    if (prefijo != "978" && prefijo != "979") {
-        return false;
-    }
-    
-    // Validar dígito de verificación usando el algoritmo oficial ISBN-13
-    int suma = 0;
-    for (int i = 0; i < 12; i++) {
-        int digito = isbnLimpio[i] - '0';
-        if (i % 2 == 0) {
-            suma += digito;      // Posiciones impares (1, 3, 5, ...) factor 1
-        } else {
-            suma += digito * 3;  // Posiciones pares (2, 4, 6, ...) factor 3
-        }
-    }
-    
-    int digitoVerificacion = (10 - (suma % 10)) % 10;
-    int digitoISBN = isbnLimpio[12] - '0';
-    
-    return digitoVerificacion == digitoISBN;
+
+    return true;
 }

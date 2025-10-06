@@ -368,7 +368,6 @@ void Menu::opcionBuscarRangoFechas() {
     resultado.mostrarTodos();
 }
 
-
 void Menu::opcionMedirRendimiento() {
     mostrarSeparador();
     cout << "       MEDICION DE RENDIMIENTO" << endl;
@@ -399,6 +398,14 @@ void Menu::opcionMedirRendimiento() {
         cout << "\nError: El ISBN '" << isbn << "' no existe en el sistema." << endl;
         cout << "Por favor seleccione un ISBN de la lista mostrada arriba." << endl;
         return;  
+    }
+
+    if (libroTitulo->isbn != isbn || libroISBN->titulo != titulo) {
+        cout << "\nError: El titulo e ISBN no pertenecen al mismo libro." << endl;
+        cout << "Titulo encontrado: " << libroTitulo->titulo << " (" << libroTitulo->isbn << ")" << endl;
+        cout << "ISBN encontrado: " << libroISBN->titulo << " (" << libroISBN->isbn << ")" << endl;
+        cout << "Por favor ingrese titulo e ISBN del MISMO libro." << endl;
+        return; 
     }
 
     cout << "\nDatos validados correctamente:" << endl;
@@ -448,8 +455,8 @@ void Menu::opcionMedirRendimiento() {
     } else {
         cout << "  EMPATE: Ambos metodos tardaron " << iSec << " microsegundos" << endl;
     }
-}
 
+}
 void Menu::opcionExportarArboles() {
     mostrarSeparador();
     cout << "       EXPORTAR GRAFICOS DE ARBOLES" << endl;
