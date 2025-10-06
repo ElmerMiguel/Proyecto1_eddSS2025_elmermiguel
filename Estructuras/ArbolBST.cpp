@@ -145,7 +145,6 @@ void ArbolBST::listarISBNs() {
     cout << "ISBNs disponibles:" << endl;
     cout << "=================" << endl;
     
-    // Recopilar todos los libros
     vector<Libro> todosLosLibros;
     recopilarLibros(raiz, todosLosLibros);
     
@@ -154,11 +153,10 @@ void ArbolBST::listarISBNs() {
         return;
     }
     
-    // Calcular anchos máximos
-    int maxISBN = 4;   // "ISBN"
-    int maxTitulo = 6; // "TITULO"
-    int maxAutor = 5;  // "AUTOR"
-    int maxAnio = 3;   // "AÑO"
+    int maxISBN = 4;   
+    int maxTitulo = 6; 
+    int maxAutor = 5;  
+    int maxAnio = 3;   
     
     for (const auto& libro : todosLosLibros) {
         maxISBN = max(maxISBN, (int)libro.isbn.length());

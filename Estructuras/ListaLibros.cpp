@@ -58,11 +58,10 @@ void ListaLibros::mostrarTodos() {
         return;
     }
 
-    // Calcular anchos máximos dinámicamente
-    int maxTitulo = 6; // "TITULO"
-    int maxAutor = 5;  // "AUTOR"
-    int maxAnio = 3;   // "AÑO"
-    int maxISBN = 4;   // "ISBN"
+    int maxTitulo = 6;
+    int maxAutor = 5;  
+    int maxAnio = 3;   
+    int maxISBN = 4;   
 
     NodoLista* actual = cabeza;
     int contador = 0;

@@ -14,7 +14,6 @@ using namespace std::chrono;
 BibliotecaMagica::BibliotecaMagica() : arbolFechas(3), arbolGeneros(2) {}
 
 void BibliotecaMagica::agregarLibro(Libro libro) {
-    // Validar ISBN
     if (!validarISBN(libro.isbn)) {
         cout << "Error: ISBN invalido. Formato correcto: 978-XX-XXXX-XXX-X" << endl;
         return;
@@ -26,7 +25,6 @@ void BibliotecaMagica::agregarLibro(Libro libro) {
         return;
     }
 
-    // Validar campos vacíos
     if (libro.titulo.empty() || libro.autor.empty() || libro.genero.empty()) {
         cout << "Error: Todos los campos son obligatorios." << endl;
         return;
@@ -94,7 +92,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
     namespace fs = std::filesystem;
     std::string rutaArchivo = rutaArchivoParam;
 
-    // === SELECCIÓN DEL ARCHIVO CSV ===
     if (rutaArchivo.empty()) {
         std::string carpeta = "./csv";
         std::vector<std::string> archivosCSV;
@@ -135,7 +132,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
         }
     }
 
-    // === LECTURA DEL ARCHIVO ===
     std::ifstream archivo(rutaArchivo);
     if (!archivo.is_open()) {
         std::cerr << "Error: no se pudo abrir el archivo " << rutaArchivo << std::endl;
@@ -146,13 +142,11 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
     int librosImportados = 0;
     int librosIgnorados = 0;
 
-    // Omitir cabecera
     if (!getline(archivo, linea)) {
         std::cerr << "Archivo vacio o sin cabecera." << std::endl;
         return;
     }
 
-    // === PROCESAMIENTO DE CADA LÍNEA ===
     while (getline(archivo, linea)) {
         if (linea.empty()) continue;
 
@@ -175,14 +169,12 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
         clean(anioStr);
         clean(autor);
 
-        // === VALIDACIÓN DE ISBN ===
         if (!validarISBN(isbn)) {
             std::cerr << "(X) ISBN invalido ignorado: " << isbn << " - " << titulo << std::endl;
             librosIgnorados++;
             continue;
         }
 
-        // === VALIDACIÓN DE AÑO ===
         int anio;
         try {
             anio = std::stoi(anioStr);
@@ -192,14 +184,12 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
             continue;
         }
 
-        // === VALIDACIÓN DE DUPLICADO ===
         if (tablaISBN.buscar(isbn) != nullptr) {
             std::cerr << "(X) ISBN duplicado ignorado: " << isbn << " - " << titulo << std::endl;
             librosIgnorados++;
             continue;
         }
 
-        // === INSERCIÓN EN TODAS LAS ESTRUCTURAS ===
         Libro libro(titulo, isbn, genero, anio, autor);
         listaSecuencial.insertar(libro);
         arbolTitulos.insertar(libro);
@@ -213,7 +203,6 @@ void BibliotecaMagica::cargarDesdeCSV(const std::string& rutaArchivoParam = "") 
 
     archivo.close();
 
-    // === RESUMEN FINAL ===
     std::cout << "\n=== RESUMEN IMPORTACION ===" << std::endl;
     std::cout << "Libros importados correctamente: " << librosImportados << std::endl;
     std::cout << "Libros ignorados por duplicados/errores: " << librosIgnorados << std::endl;

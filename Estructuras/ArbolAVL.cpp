@@ -221,11 +221,10 @@ void ArbolAVL::listarTitulos() {
         return;
     }
     
-    // Calcular anchos máximos
-    int maxTitulo = 6; // "TITULO"
-    int maxAutor = 5;  // "AUTOR"
-    int maxAnio = 3;   // "AÑO"
-    int maxISBN = 4;   // "ISBN"
+    int maxTitulo = 6; 
+    int maxAutor = 5;  
+    int maxAnio = 3;   
+    int maxISBN = 4;   
     
     for (const auto& libro : todosLosLibros) {
         maxTitulo = max(maxTitulo, (int)libro.titulo.length());

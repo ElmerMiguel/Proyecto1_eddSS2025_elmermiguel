@@ -5,6 +5,10 @@
 #include "../Objetos/Libro.h"
 #include <iostream>
 #include <vector>
+#include <iomanip>   
+#include <algorithm>  
+#include <string>     
+#include <fstream>
 using namespace std;
 
 class NodoBPlus {

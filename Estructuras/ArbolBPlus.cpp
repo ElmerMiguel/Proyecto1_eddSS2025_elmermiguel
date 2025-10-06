@@ -1,6 +1,9 @@
 #include "ArbolBPlus.h"
 #include <fstream>
 #include <map> 
+#include <iomanip>    
+#include <algorithm> 
+#include <string>   
 
 NodoBPlus::NodoBPlus(bool esHoja) {
     hoja = esHoja;
@@ -114,14 +117,51 @@ vector<Libro> ArbolBPlus::buscar(const string& genero) {
 }
 
 void ArbolBPlus::mostrarTodos() {
+    if (!raiz) {
+        cout << "No hay libros registrados por genero." << endl;
+        return;
+    }
+    
     NodoBPlus* actual = raiz;
     while (!actual->hoja) actual = actual->hijos[0];
 
     while (actual) {
         for (size_t i = 0; i < actual->claves.size(); i++) {
-            cout << "Genero: " << actual->claves[i] << endl;
-            for (auto& l : actual->valores[i]) {
-                cout << "   - " << l.titulo << " (" << l.autor << ")" << endl;
+            string genero = actual->claves[i];
+            vector<Libro>& libros = actual->valores[i];
+            
+            if (!libros.empty()) {
+                int maxTitulo = 6; 
+                int maxAutor = 5;  
+                int maxAnio = 3;   
+                int maxISBN = 4;   
+                
+                for (const auto& libro : libros) {
+                    maxTitulo = max(maxTitulo, (int)libro.titulo.length());
+                    maxAutor = max(maxAutor, (int)libro.autor.length());
+                    maxAnio = max(maxAnio, (int)to_string(libro.anio).length());
+                    maxISBN = max(maxISBN, (int)libro.isbn.length());
+                }
+                
+                cout << "\nGenero: " << genero << " (" << libros.size() << " libros)" << endl;
+                cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+                
+                cout << left << setw(maxTitulo + 2) << "TITULO"
+                     << left << setw(maxAutor + 2) << "AUTOR"
+                     << left << setw(maxAnio + 4) << "AÑO"
+                     << left << setw(maxISBN + 2) << "ISBN" << endl;
+                
+                cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+                
+                for (const auto& l : libros) {
+                    cout << left << setw(maxTitulo + 2) << l.titulo
+                         << left << setw(maxAutor + 2) << l.autor
+                         << left << setw(maxAnio + 4) << l.anio
+                         << left << setw(maxISBN + 2) << l.isbn
+                         << endl;
+                }
+                
+                cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
             }
         }
         actual = actual->siguiente;
@@ -216,9 +256,11 @@ void ArbolBPlus::recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHoja
 
 
 void ArbolBPlus::listarGeneros() {
-    if (!raiz) return;
+    if (!raiz) {
+        cout << "No hay generos disponibles." << endl;
+        return;
+    }
     
-    // Usar map para consolidar géneros duplicados
     map<string, int> generosConsolidados;
     
     NodoBPlus* actual = raiz;
@@ -232,11 +274,35 @@ void ArbolBPlus::listarGeneros() {
         actual = actual->siguiente;
     }
     
-    // Mostrar géneros consolidados y ordenados
-    for (const auto& par : generosConsolidados) {
-        cout << "- " << par.first << " (" << par.second << " libros)" << endl;
+    if (generosConsolidados.empty()) {
+        cout << "No hay generos disponibles." << endl;
+        return;
     }
-    cout << endl;
+    
+    int maxGenero = 6;    
+    int maxCantidad = 8; 
+    
+    for (const auto& par : generosConsolidados) {
+        maxGenero = max(maxGenero, (int)par.first.length());
+        maxCantidad = max(maxCantidad, (int)to_string(par.second).length() + 7); // " libros"
+    }
+    
+    cout << "\nGeneros disponibles:" << endl;
+    cout << "Total de generos: " << generosConsolidados.size() << endl;
+    cout << string(maxGenero + maxCantidad + 4, '=') << endl;
+    
+    cout << left << setw(maxGenero + 2) << "GENERO"
+         << left << setw(maxCantidad + 2) << "CANTIDAD" << endl;
+    
+    cout << string(maxGenero + maxCantidad + 4, '=') << endl;
+    
+    for (const auto& par : generosConsolidados) {
+        cout << left << setw(maxGenero + 2) << par.first
+             << left << setw(maxCantidad + 2) << (to_string(par.second) + " libros")
+             << endl;
+    }
+    
+    cout << string(maxGenero + maxCantidad + 4, '=') << endl;
 }
 
 
