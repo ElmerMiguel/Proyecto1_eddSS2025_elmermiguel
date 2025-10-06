@@ -31,6 +31,7 @@ private:
     int t;
     void exportarDOTRec(NodoB* nodo, ofstream& out, int& id);
     void listarAniosRec(NodoB* nodo);
+    void eliminarRec(NodoB* nodo, int anio, string isbn); 
 public:
     ArbolB(int _t);
     void insertar(Libro libro);
@@ -39,6 +40,7 @@ public:
     ListaLibros buscarPorRangoFechas(int inicio, int fin);
     void exportarDOT(const string& archivo);
     void listarAnios();
+    bool eliminar(int anio, string isbn); 
 };
 
 

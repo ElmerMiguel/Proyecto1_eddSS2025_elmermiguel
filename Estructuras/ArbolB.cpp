@@ -221,3 +221,29 @@ void ArbolB::listarAniosRec(NodoB* nodo) {
     }
     if (!nodo->hoja) listarAniosRec(nodo->hijos[nodo->n]); 
 }
+
+
+bool ArbolB::eliminar(int anio, string isbn) {
+    if (!raiz) return false;
+    eliminarRec(raiz, anio, isbn);
+    return true;
+}
+
+void ArbolB::eliminarRec(NodoB* nodo, int anio, string isbn) {
+    if (!nodo) return;
+    
+    for (int i = 0; i < nodo->n; i++) {
+        if (!nodo->hoja) eliminarRec(nodo->hijos[i], anio, isbn);
+        
+        if (nodo->claves[i] == anio && nodo->valores[i].isbn == isbn) {
+            // Mover elementos hacia la izquierda
+            for (int j = i; j < nodo->n - 1; j++) {
+                nodo->claves[j] = nodo->claves[j + 1];
+                nodo->valores[j] = nodo->valores[j + 1];
+            }
+            nodo->n--;
+            return;
+        }
+    }
+    if (!nodo->hoja) eliminarRec(nodo->hijos[nodo->n], anio, isbn);
+}

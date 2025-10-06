@@ -54,10 +54,14 @@ void BibliotecaMagica::eliminarLibro(string isbn) {
     }
     
     string titulo = libro->titulo;
+    string genero = libro->genero;
+    int anio = libro->anio;
     
     listaSecuencial.eliminar(isbn);
     arbolTitulos.eliminar(titulo);
     tablaISBN.eliminar(isbn);
+    arbolFechas.eliminar(anio, isbn);        
+    arbolGeneros.eliminar(genero, isbn);     
     
     cout << "Libro eliminado correctamente: " << titulo << endl;
 }

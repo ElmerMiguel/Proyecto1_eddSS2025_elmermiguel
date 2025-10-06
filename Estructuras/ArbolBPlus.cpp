@@ -1,5 +1,6 @@
 #include "ArbolBPlus.h"
 #include <fstream>
+#include <map> 
 
 NodoBPlus::NodoBPlus(bool esHoja) {
     hoja = esHoja;
@@ -215,18 +216,54 @@ void ArbolBPlus::recopilarIdsHojas(NodoBPlus* nodo, int& id, vector<int>& idHoja
 
 
 void ArbolBPlus::listarGeneros() {
-
-    
     if (!raiz) return;
+    
+    // Usar map para consolidar géneros duplicados
+    map<string, int> generosConsolidados;
+    
+    NodoBPlus* actual = raiz;
+    while (!actual->hoja) actual = actual->hijos[0];
+    
+    // Recorrer todas las hojas y consolidar
+    while (actual) {
+        for (size_t i = 0; i < actual->claves.size(); i++) {
+            generosConsolidados[actual->claves[i]] += actual->valores[i].size();
+        }
+        actual = actual->siguiente;
+    }
+    
+    // Mostrar géneros consolidados y ordenados
+    for (const auto& par : generosConsolidados) {
+        cout << "- " << par.first << " (" << par.second << " libros)" << endl;
+    }
+    cout << endl;
+}
+
+
+
+bool ArbolBPlus::eliminar(const string& genero, const string& isbn) {
+    if (!raiz) return false;
     
     NodoBPlus* actual = raiz;
     while (!actual->hoja) actual = actual->hijos[0];
     
     while (actual) {
         for (size_t i = 0; i < actual->claves.size(); i++) {
-            cout << "- " << actual->claves[i] << " (" << actual->valores[i].size() << " libros)" << endl;
+            if (actual->claves[i] == genero) {
+                for (auto it = actual->valores[i].begin(); it != actual->valores[i].end(); ++it) {
+                    if (it->isbn == isbn) {
+                        actual->valores[i].erase(it);
+                        
+                        if (actual->valores[i].empty()) {
+                            actual->claves.erase(actual->claves.begin() + i);
+                            actual->valores.erase(actual->valores.begin() + i);
+                        }
+                        return true;
+                    }
+                }
+            }
         }
         actual = actual->siguiente;
     }
-    cout << endl;
+    return false;
 }

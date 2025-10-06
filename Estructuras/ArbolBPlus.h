@@ -39,6 +39,7 @@ public:
     void mostrarTodos();
     void exportarDOT(const string& archivo);
     void listarGeneros();
+    bool eliminar(const string& genero, const string& isbn); 
    
 };
 
