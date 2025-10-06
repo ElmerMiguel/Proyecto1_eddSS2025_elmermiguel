@@ -29,7 +29,7 @@ El sistema "Biblioteca Mágica" es una aplicación desarrollada en C++ que imple
 
 ### Diagrama de Arquitectura General
 
-![](assets/2025-10-06-03-28-38-image.png)
+![](assets/2025-10-06-04-17-00-image.png)
 
 ---
 
@@ -102,6 +102,10 @@ El sistema "Biblioteca Mágica" es una aplicación desarrollada en C++ que imple
 ---
 
 ## 🔧 TAD's (Tipos Abstractos de Datos)
+
+### Diagrama
+
+![](assets/Tad_graph.png)
 
 ### TAD Libro
 
