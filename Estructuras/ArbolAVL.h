@@ -4,6 +4,12 @@
 #pragma once
 #include "../Objetos/Libro.h"
 #include <iostream>
+#include <vector> 
+#include <map>        
+#include <fstream>  
+#include <iomanip>    
+#include <algorithm>  
+#include <string>  
 using namespace std;
 
 struct NodoAVL {
@@ -30,6 +36,7 @@ private:
     void inOrder(NodoAVL* nodo);
     void exportarDOTRec(NodoAVL* nodo, ofstream& out);
      void listarTitulosRec(NodoAVL* nodo);
+void recopilarLibros(NodoAVL* nodo, vector<Libro>& libros);
 public:
     ArbolAVL();
     void insertar(Libro libro);

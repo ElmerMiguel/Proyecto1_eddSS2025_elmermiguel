@@ -1,5 +1,8 @@
 #include "ArbolAVL.h"
 #include <fstream>
+#include <iomanip>    
+#include <algorithm>  
+
 
 ArbolAVL::ArbolAVL() { raiz = nullptr; }
 
@@ -204,15 +207,58 @@ void ArbolAVL::exportarDOTRec(NodoAVL* nodo, ofstream& out) {
 
 
 
+
 void ArbolAVL::listarTitulos() {
+    cout << "Titulos disponibles:" << endl;
+    cout << "===================" << endl;
     
-    listarTitulosRec(raiz);
-    cout << endl;
+    // Recopilar todos los libros para calcular anchos
+    vector<Libro> todosLosLibros;
+    recopilarLibros(raiz, todosLosLibros);
+    
+    if (todosLosLibros.empty()) {
+        cout << "No hay titulos disponibles." << endl;
+        return;
+    }
+    
+    // Calcular anchos máximos
+    int maxTitulo = 6; // "TITULO"
+    int maxAutor = 5;  // "AUTOR"
+    int maxAnio = 3;   // "AÑO"
+    int maxISBN = 4;   // "ISBN"
+    
+    for (const auto& libro : todosLosLibros) {
+        maxTitulo = max(maxTitulo, (int)libro.titulo.length());
+        maxAutor = max(maxAutor, (int)libro.autor.length());
+        maxAnio = max(maxAnio, (int)to_string(libro.anio).length());
+        maxISBN = max(maxISBN, (int)libro.isbn.length());
+    }
+    
+    cout << "\nTotal de titulos: " << todosLosLibros.size() << endl;
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+    
+    cout << left << setw(maxTitulo + 2) << "TITULO"
+         << left << setw(maxAutor + 2) << "AUTOR"
+         << left << setw(maxAnio + 4) << "AÑO"
+         << left << setw(maxISBN + 2) << "ISBN" << endl;
+    
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
+    
+    for (const auto& libro : todosLosLibros) {
+        cout << left << setw(maxTitulo + 2) << libro.titulo
+             << left << setw(maxAutor + 2) << libro.autor
+             << left << setw(maxAnio + 4) << libro.anio
+             << left << setw(maxISBN + 2) << libro.isbn
+             << endl;
+    }
+    
+    cout << string(maxTitulo + maxAutor + maxAnio + maxISBN + 12, '=') << endl;
 }
 
-void ArbolAVL::listarTitulosRec(NodoAVL* nodo) {
+void ArbolAVL::recopilarLibros(NodoAVL* nodo, vector<Libro>& libros) {
     if (!nodo) return;
-    listarTitulosRec(nodo->izq);
-    cout << "- " << nodo->data.titulo << endl;
-    listarTitulosRec(nodo->der);
+    recopilarLibros(nodo->izq, libros);
+    libros.push_back(nodo->data);
+    recopilarLibros(nodo->der, libros);
 }
+
