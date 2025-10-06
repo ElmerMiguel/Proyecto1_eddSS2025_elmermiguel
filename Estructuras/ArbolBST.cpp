@@ -22,7 +22,8 @@ NodoBST* ArbolBST::insertar(NodoBST* nodo, Libro libro) {
     if (!nodo) {
         return new NodoBST(libro);
     }
-    
+
+    // Comparar  para decidir direccion de insercion
     if (libro.isbn < nodo->data.isbn) {
         nodo->izq = insertar(nodo->izq, libro);
     } else if (libro.isbn > nodo->data.isbn) {

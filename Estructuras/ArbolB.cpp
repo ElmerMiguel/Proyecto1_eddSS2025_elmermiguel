@@ -283,7 +283,7 @@ void ArbolB::buscarTodosRec(NodoB* nodo, int k, vector<Libro>& resultados) {
     for (int i = 0; i < nodo->n; i++) {
         if (!nodo->hoja) buscarTodosRec(nodo->hijos[i], k, resultados);
         
-        // Si encontramos el año, agregar a resultados
+        // Si encuentra el año, agregar a resultados
         if (nodo->claves[i] == k) {
             resultados.push_back(nodo->valores[i]);
         }

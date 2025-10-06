@@ -17,8 +17,10 @@ int ArbolAVL::balance(NodoAVL* nodo) {
 NodoAVL* ArbolAVL::rotacionDerecha(NodoAVL* y) {
     NodoAVL* x = y->izq;
     NodoAVL* T2 = x->der;
+    // ajustar punteros para nueva raiz de subarbol
     x->der = y;
     y->izq = T2;
+
     y->altura = max(altura(y->izq), altura(y->der)) + 1;
     x->altura = max(altura(x->izq), altura(x->der)) + 1;
     return x;
@@ -27,8 +29,10 @@ NodoAVL* ArbolAVL::rotacionDerecha(NodoAVL* y) {
 NodoAVL* ArbolAVL::rotacionIzquierda(NodoAVL* x) {
     NodoAVL* y = x->der;
     NodoAVL* T2 = y->izq;
+
     y->izq = x;
     x->der = T2;
+
     x->altura = max(altura(x->izq), altura(x->der)) + 1;
     y->altura = max(altura(y->izq), altura(y->der)) + 1;
     return y;
@@ -47,6 +51,7 @@ NodoAVL* ArbolAVL::insertar(NodoAVL* nodo, Libro libro) {
     nodo->altura = 1 + max(altura(nodo->izq), altura(nodo->der));
     int balanceFactor = balance(nodo);
 
+    // identificar tipo de desequilibrio y aplicar rotacion adecuada
     if (balanceFactor > 1 && libro.titulo < nodo->izq->data.titulo)
         return rotacionDerecha(nodo);
     if (balanceFactor < -1 && libro.titulo > nodo->der->data.titulo)
@@ -70,9 +75,6 @@ NodoAVL* ArbolAVL::buscar(NodoAVL* nodo, string titulo) {
 }
 
 
-
-
-
 NodoAVL* ArbolAVL::encontrarMin(NodoAVL* nodo) {
     while (nodo && nodo->izq) {
         nodo = nodo->izq;
@@ -88,7 +90,6 @@ NodoAVL* ArbolAVL::eliminar(NodoAVL* nodo, string titulo) {
     } else if (titulo > nodo->data.titulo) {
         nodo->der = eliminar(nodo->der, titulo);
     } else {
-        // Nodo encontrado - eliminar
         if (!nodo->izq || !nodo->der) {
             NodoAVL* temp = nodo->izq ? nodo->izq : nodo->der;
             if (!temp) {
@@ -108,27 +109,21 @@ NodoAVL* ArbolAVL::eliminar(NodoAVL* nodo, string titulo) {
 
     if (!nodo) return nodo;
 
-    // Actualizar altura
     nodo->altura = 1 + max(altura(nodo->izq), altura(nodo->der));
 
-    // Verificar balance y rotar si es necesario
     int balanceFactor = balance(nodo);
 
-    // Rotacion izquierda-izquierda
     if (balanceFactor > 1 && balance(nodo->izq) >= 0)
         return rotacionDerecha(nodo);
 
-    // Rotacion derecha-derecha
     if (balanceFactor < -1 && balance(nodo->der) <= 0)
         return rotacionIzquierda(nodo);
 
-    // Rotacion izquierda-derecha
     if (balanceFactor > 1 && balance(nodo->izq) < 0) {
         nodo->izq = rotacionIzquierda(nodo->izq);
         return rotacionDerecha(nodo);
     }
 
-    // Rotacion derecha-izquierda
     if (balanceFactor < -1 && balance(nodo->der) > 0) {
         nodo->der = rotacionDerecha(nodo->der);
         return rotacionIzquierda(nodo);
